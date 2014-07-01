@@ -30,8 +30,9 @@
           %ul.nav.navbar-nav
             %li= link_to "Link 1", "/path1"
             %li= link_to "Link 2", "/path2"
-            %li= link_to "Link 3", "/path3"
-            %li= link_to "Link 3", "/path3"
+            - if user_signed_in?
+              %li= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }
+
 
     .container
       .row
@@ -45,6 +46,7 @@
               %li.nav-header Sidebar
               %li= link_to "Link 1", "/path1"
               %li= link_to "Link 2", "/path2"
-              %li= link_to "Link 3", "/path3"
+              - if user_signed_in?
+                %li= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }
       %footer
         %p &copy; Company 2014

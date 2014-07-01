@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @task.name
+%p
+  %b Description:
+  = @task.description
+%p
+  %b User:
+  = @task.user_id
+%p
+  %b App type:
+  = @task.app_type
+%p
+  %b Paid:
+  = @task.paid
+%p
+  %b Release at:
+  = @task.release_at
+
+= link_to 'Edit', edit_task_path(@task)
+\|
+= link_to 'Back', tasks_path

@@ -19,7 +19,7 @@
         %td= link_to task.id, task_path(task)
         %td= task.name
         %td= task.description
-        %td= task.user_id
+        %td= task.user.username
         %td= task.app_type
         %td= task.paid
         %td= task.release_at

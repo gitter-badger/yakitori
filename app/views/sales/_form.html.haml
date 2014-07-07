@@ -1,0 +1,58 @@
+= form_for @sale do |f|
+  - if @sale.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@sale.errors.count, "error")} prohibited this sale from being saved:"
+      %ul
+        - @sale.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :sale_name
+    = f.text_field :sale_name
+  .field
+    = f.label :description
+    = f.text_area :description
+  .field
+    = f.label :price
+    = f.number_field :price
+  .field
+    = f.label :genre_id
+    = f.text_field :genre_id
+  .field
+    = f.label :display_order
+    = f.number_field :display_order
+  .field
+    = f.label :thumbnail_url
+    = f.text_field :thumbnail_url
+  .field
+    = f.label :preview1_url
+    = f.text_field :preview1_url
+  .field
+    = f.label :preview2_url
+    = f.text_field :preview2_url
+  .field
+    = f.label :preview3_url
+    = f.text_field :preview3_url
+  .field
+    = f.label :preview4_url
+    = f.text_field :preview4_url
+  .field
+    = f.label :preview5_url
+    = f.text_field :preview5_url
+  .field
+    = f.label :show_flg
+    = f.check_box :show_flg
+  .field
+    = f.label :approval_flg
+    = f.check_box :approval_flg
+  .field
+    = f.label :new_flg
+    = f.check_box :new_flg
+  .field
+    = f.label :sale_area
+    = f.number_field :sale_area
+  .field
+    = f.label :optimum_plan
+    = f.text_field :optimum_plan
+  .actions
+    = f.submit 'Save'

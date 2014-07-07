@@ -1,0 +1,49 @@
+%h1 Listing sales
+
+%table
+  %tr
+    %th Sale name
+    %th Description
+    %th Price
+    %th Genre
+    %th Display order
+    %th Thumbnail url
+    %th Preview1 url
+    %th Preview2 url
+    %th Preview3 url
+    %th Preview4 url
+    %th Preview5 url
+    %th Show flg
+    %th Approval flg
+    %th New flg
+    %th Sale area
+    %th Optimum plan
+    %th
+    %th
+    %th
+
+  - @sales.each do |sale|
+    %tr
+      %td= sale.sale_name
+      %td= sale.description
+      %td= sale.price
+      %td= sale.genre_id
+      %td= sale.display_order
+      %td= sale.thumbnail_url
+      %td= sale.preview1_url
+      %td= sale.preview2_url
+      %td= sale.preview3_url
+      %td= sale.preview4_url
+      %td= sale.preview5_url
+      %td= sale.show_flg
+      %td= sale.approval_flg
+      %td= sale.new_flg
+      %td= sale.sale_area
+      %td= sale.optimum_plan
+      %td= link_to 'Show', sale
+      %td= link_to 'Edit', edit_sale_path(sale)
+      %td= link_to 'Destroy', sale, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Sale', new_sale_path

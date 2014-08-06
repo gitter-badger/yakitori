@@ -1,0 +1,54 @@
+%p#notice= notice
+
+%p
+  %b Sale name:
+  = @sale.sale_name
+%p
+  %b Description:
+  = @sale.description
+%p
+  %b Price:
+  = @sale.price
+%p
+  %b Genre:
+  = @sale.genre_id
+%p
+  %b Display order:
+  = @sale.display_order
+%p
+  %b Thumbnail url:
+  = @sale.thumbnail_url
+%p
+  %b Preview1 url:
+  = @sale.preview1_url
+%p
+  %b Preview2 url:
+  = @sale.preview2_url
+%p
+  %b Preview3 url:
+  = @sale.preview3_url
+%p
+  %b Preview4 url:
+  = @sale.preview4_url
+%p
+  %b Preview5 url:
+  = @sale.preview5_url
+%p
+  %b Show flg:
+  = @sale.show_flg
+%p
+  %b Approval flg:
+  = @sale.approval_flg
+%p
+  %b New flg:
+  = @sale.new_flg
+%p
+  %b Sale area:
+  = @sale.sale_area
+%p
+  %b Optimum plan:
+  = @sale.optimum_plan
+
+= link_to 'Edit', edit_sale_path(@sale)
+\|
+= link_to 'Back', sales_path

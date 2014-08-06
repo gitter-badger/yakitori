@@ -11,7 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140701070352) do
+ActiveRecord::Schema.define(version: 20140707110714) do
+
+  create_table "products", force: true do |t|
+    t.string   "product_name"
+    t.string   "version"
+    t.string   "genre_id"
+    t.string   "thumbnail_url"
+    t.string   "product_data_url"
+    t.string   "category_id"
+    t.string   "package_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sales", force: true do |t|
+    t.string   "sale_name"
+    t.text     "description"
+    t.integer  "price"
+    t.string   "genre_id"
+    t.integer  "display_order"
+    t.string   "thumbnail_url"
+    t.string   "preview1_url"
+    t.string   "preview2_url"
+    t.string   "preview3_url"
+    t.string   "preview4_url"
+    t.string   "preview5_url"
+    t.boolean  "show_flg"
+    t.boolean  "approval_flg"
+    t.boolean  "new_flg"
+    t.integer  "sale_area"
+    t.string   "optimum_plan"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tasks", force: true do |t|
     t.string   "name"

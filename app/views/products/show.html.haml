@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b Product name:
+  = @product.product_name
+%p
+  %b Version:
+  = @product.version
+%p
+  %b Genre:
+  = @product.genre_id
+%p
+  %b Thumbnail url:
+  = @product.thumbnail_url
+%p
+  %b Product data url:
+  = @product.product_data_url
+%p
+  %b Category:
+  = @product.category_id
+%p
+  %b Package:
+  = @product.package_id
+
+= link_to 'Edit', edit_product_path(@product)
+\|
+= link_to 'Back', products_path

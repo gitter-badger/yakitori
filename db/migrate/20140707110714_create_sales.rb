@@ -12,9 +12,9 @@ class CreateSales < ActiveRecord::Migration
       t.string :preview3_url
       t.string :preview4_url
       t.string :preview5_url
-      t.boolean :show_flg
-      t.boolean :approval_flg
-      t.boolean :new_flg
+      t.boolean :visible
+      t.datetime :approval_at
+      t.boolean :is_new
       t.integer :sale_area
       t.string :optimum_plan
 

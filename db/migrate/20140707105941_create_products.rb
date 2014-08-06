@@ -7,7 +7,6 @@ class CreateProducts < ActiveRecord::Migration
       t.string :thumbnail_url
       t.string :product_data_url
       t.string :category
-      t.string :package_id
 
       t.timestamps
     end

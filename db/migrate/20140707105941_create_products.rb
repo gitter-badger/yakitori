@@ -3,10 +3,10 @@ class CreateProducts < ActiveRecord::Migration
     create_table :products do |t|
       t.string :product_name
       t.string :version
-      t.string :genre_id
+      t.string :genre
       t.string :thumbnail_url
       t.string :product_data_url
-      t.string :category_id
+      t.string :category
       t.string :package_id
 
       t.timestamps

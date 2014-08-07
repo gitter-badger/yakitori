@@ -11,16 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707110714) do
+ActiveRecord::Schema.define(version: 20140807083256) do
 
   create_table "products", force: true do |t|
     t.string   "product_name"
     t.string   "version"
-    t.string   "genre_id"
+    t.string   "genre"
     t.string   "thumbnail_url"
     t.string   "product_data_url"
-    t.string   "category_id"
-    t.string   "package_id"
+    t.string   "category"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sale_products", force: true do |t|
+    t.integer  "product_id"
+    t.integer  "sale_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -29,7 +35,7 @@ ActiveRecord::Schema.define(version: 20140707110714) do
     t.string   "sale_name"
     t.text     "description"
     t.integer  "price"
-    t.string   "genre_id"
+    t.integer  "genre_id"
     t.integer  "display_order"
     t.string   "thumbnail_url"
     t.string   "preview1_url"
@@ -37,9 +43,9 @@ ActiveRecord::Schema.define(version: 20140707110714) do
     t.string   "preview3_url"
     t.string   "preview4_url"
     t.string   "preview5_url"
-    t.boolean  "show_flg"
-    t.boolean  "approval_flg"
-    t.boolean  "new_flg"
+    t.boolean  "visible"
+    t.datetime "approval_at"
+    t.boolean  "is_new"
     t.integer  "sale_area"
     t.string   "optimum_plan"
     t.datetime "created_at"

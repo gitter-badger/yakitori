@@ -1,54 +1,77 @@
-%p#notice= notice
+- model_class = Sale
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human.titleize
 
 %p
-  %b Sale name:
-  = @sale.sale_name
+  %strong= model_class.human_attribute_name(:name) + ':'
+  %br
+  = @sale.name
 %p
-  %b Description:
+  %strong= model_class.human_attribute_name(:description) + ':'
+  %br
   = @sale.description
 %p
-  %b Price:
+  %strong= model_class.human_attribute_name(:price) + ':'
+  %br
   = @sale.price
 %p
-  %b Genre:
+  %strong= model_class.human_attribute_name(:genre_id) + ':'
+  %br
   = @sale.genre_id
 %p
-  %b Display order:
+  %strong= model_class.human_attribute_name(:display_order) + ':'
+  %br
   = @sale.display_order
 %p
-  %b Thumbnail url:
+  %strong= model_class.human_attribute_name(:thumbnail_url) + ':'
+  %br
   = @sale.thumbnail_url
 %p
-  %b Preview1 url:
+  %strong= model_class.human_attribute_name(:preview1_url) + ':'
+  %br
   = @sale.preview1_url
 %p
-  %b Preview2 url:
+  %strong= model_class.human_attribute_name(:preview2_url) + ':'
+  %br
   = @sale.preview2_url
 %p
-  %b Preview3 url:
+  %strong= model_class.human_attribute_name(:preview3_url) + ':'
+  %br
   = @sale.preview3_url
 %p
-  %b Preview4 url:
+  %strong= model_class.human_attribute_name(:preview4_url) + ':'
+  %br
   = @sale.preview4_url
 %p
-  %b Preview5 url:
+  %strong= model_class.human_attribute_name(:preview5_url) + ':'
+  %br
   = @sale.preview5_url
 %p
-  %b Show flg:
-  = @sale.show_flg
+  %strong= model_class.human_attribute_name(:visible) + ':'
+  %br
+  = @sale.visible
 %p
-  %b Approval flg:
-  = @sale.approval_flg
+  %strong= model_class.human_attribute_name(:approval_at) + ':'
+  %br
+  = @sale.approval_at
 %p
-  %b New flg:
-  = @sale.new_flg
+  %strong= model_class.human_attribute_name(:is_new) + ':'
+  %br
+  = @sale.is_new
 %p
-  %b Sale area:
-  = @sale.sale_area
+  %strong= model_class.human_attribute_name(:area) + ':'
+  %br
+  = @sale.area
 %p
-  %b Optimum plan:
+  %strong= model_class.human_attribute_name(:optimum_plan) + ':'
+  %br
   = @sale.optimum_plan
+%p
+  %strong= model_class.human_attribute_name(:task_id) + ':'
+  %br
+  = @sale.task_id
 
-= link_to 'Edit', edit_sale_path(@sale)
-\|
-= link_to 'Back', sales_path
+
+= link_to t('.back', :default => t("helpers.links.back")), sales_path, :class => 'btn btn-default'
+= link_to t('.edit', :default => t("helpers.links.edit")), edit_sale_path(@sale), :class => 'btn btn-default'
+= link_to t('.destroy', :default => t("helpers.links.destroy")), sale_path(@sale), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'

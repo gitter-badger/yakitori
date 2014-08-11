@@ -1,7 +1,7 @@
 class CreateSales < ActiveRecord::Migration
   def change
     create_table :sales do |t|
-      t.string :sale_name
+      t.string :name
       t.text :description
       t.integer :price
       t.integer :genre_id
@@ -15,8 +15,9 @@ class CreateSales < ActiveRecord::Migration
       t.boolean :visible
       t.datetime :approval_at
       t.boolean :is_new
-      t.integer :sale_area
+      t.integer :area
       t.string :optimum_plan
+      t.integer :task_id
 
       t.timestamps
     end

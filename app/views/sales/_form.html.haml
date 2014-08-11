@@ -1,58 +1,71 @@
-= form_for @sale do |f|
-  - if @sale.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@sale.errors.count, "error")} prohibited this sale from being saved:"
-      %ul
-        - @sale.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :sale_name
-    = f.text_field :sale_name
-  .field
-    = f.label :description
-    = f.text_area :description
-  .field
-    = f.label :price
-    = f.number_field :price
-  .field
-    = f.label :genre_id
-    = f.text_field :genre_id
-  .field
-    = f.label :display_order
-    = f.number_field :display_order
-  .field
-    = f.label :thumbnail_url
-    = f.text_field :thumbnail_url
-  .field
-    = f.label :preview1_url
-    = f.text_field :preview1_url
-  .field
-    = f.label :preview2_url
-    = f.text_field :preview2_url
-  .field
-    = f.label :preview3_url
-    = f.text_field :preview3_url
-  .field
-    = f.label :preview4_url
-    = f.text_field :preview4_url
-  .field
-    = f.label :preview5_url
-    = f.text_field :preview5_url
-  .field
-    = f.label :show_flg
-    = f.check_box :show_flg
-  .field
-    = f.label :approval_flg
-    = f.check_box :approval_flg
-  .field
-    = f.label :new_flg
-    = f.check_box :new_flg
-  .field
-    = f.label :sale_area
-    = f.number_field :sale_area
-  .field
-    = f.label :optimum_plan
-    = f.text_field :optimum_plan
-  .actions
-    = f.submit 'Save'
+= form_for @sale, :html => { :class => 'form-horizontal' } do |f|
+  .form-group
+    = f.label :name, :class => 'control-label'
+    .controls
+      = f.text_field :name, :class => 'form-control'
+  .form-group
+    = f.label :description, :class => 'control-label'
+    .controls
+      = f.text_field :description, :class => 'form-control'
+  .form-group
+    = f.label :price, :class => 'control-label'
+    .controls
+      = f.text_field :price, :class => 'form-control'
+  .form-group
+    = f.label :genre_id, :class => 'control-label'
+    .controls
+      = f.text_field :genre_id, :class => 'form-control'
+  .form-group
+    = f.label :display_order, :class => 'control-label'
+    .controls
+      = f.text_field :display_order, :class => 'form-control'
+  .form-group
+    = f.label :thumbnail_url, :class => 'control-label'
+    .controls
+      = f.text_field :thumbnail_url, :class => 'form-control'
+  .form-group
+    = f.label :preview1_url, :class => 'control-label'
+    .controls
+      = f.text_field :preview1_url, :class => 'form-control'
+  .form-group
+    = f.label :preview2_url, :class => 'control-label'
+    .controls
+      = f.text_field :preview2_url, :class => 'form-control'
+  .form-group
+    = f.label :preview3_url, :class => 'control-label'
+    .controls
+      = f.text_field :preview3_url, :class => 'form-control'
+  .form-group
+    = f.label :preview4_url, :class => 'control-label'
+    .controls
+      = f.text_field :preview4_url, :class => 'form-control'
+  .form-group
+    = f.label :preview5_url, :class => 'control-label'
+    .controls
+      = f.text_field :preview5_url, :class => 'form-control'
+  .form-group
+    = f.label :visible, :class => 'control-label'
+    .controls
+      = f.text_field :visible, :class => 'form-control'
+  .form-group
+    = f.label :approval_at, :class => 'control-label'
+    .controls
+      = f.text_field :approval_at, :class => 'form-control'
+  .form-group
+    = f.label :is_new, :class => 'control-label'
+    .controls
+      = f.text_field :is_new, :class => 'form-control'
+  .form-group
+    = f.label :area, :class => 'control-label'
+    .controls
+      = f.text_field :area, :class => 'form-control'
+  .form-group
+    = f.label :optimum_plan, :class => 'control-label'
+    .controls
+      = f.text_field :optimum_plan, :class => 'form-control'
+  .form-group
+    = f.label :task_id, :class => 'control-label'
+    .controls
+      = f.text_field :task_id, :class => 'form-control'
+  = f.submit nil, :class => 'btn btn-primary'
+  = link_to t('.cancel', :default => t("helpers.links.cancel")), sales_path, :class => 'btn btn-default'

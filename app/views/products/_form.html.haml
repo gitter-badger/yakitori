@@ -1,31 +1,27 @@
-= form_for @product do |f|
-  - if @product.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@product.errors.count, "error")} prohibited this product from being saved:"
-      %ul
-        - @product.errors.full_messages.each do |msg|
-          %li= msg
-
-  .field
-    = f.label :product_name
-    = f.text_field :product_name
-  .field
-    = f.label :version
-    = f.text_field :version
-  .field
-    = f.label :genre_id
-    = f.text_field :genre_id
-  .field
-    = f.label :thumbnail_url
-    = f.text_field :thumbnail_url
-  .field
-    = f.label :product_data_url
-    = f.text_field :product_data_url
-  .field
-    = f.label :category_id
-    = f.text_field :category_id
-  .field
-    = f.label :package_id
-    = f.text_field :package_id
-  .actions
-    = f.submit 'Save'
+= form_for @product, :html => { :class => 'form-horizontal' } do |f|
+  .form-group
+    = f.label :name, :class => 'control-label'
+    .controls
+      = f.text_field :name, :class => 'form-control'
+  .form-group
+    = f.label :version, :class => 'control-label'
+    .controls
+      = f.text_field :version, :class => 'form-control'
+  .form-group
+    = f.label :genre, :class => 'control-label'
+    .controls
+      = f.text_field :genre, :class => 'form-control'
+  .form-group
+    = f.label :thumbnail_url, :class => 'control-label'
+    .controls
+      = f.text_field :thumbnail_url, :class => 'form-control'
+  .form-group
+    = f.label :data_url, :class => 'control-label'
+    .controls
+      = f.text_field :data_url, :class => 'form-control'
+  .form-group
+    = f.label :category, :class => 'control-label'
+    .controls
+      = f.text_field :category, :class => 'form-control'
+  = f.submit nil, :class => 'btn btn-primary'
+  = link_to t('.cancel', :default => t("helpers.links.cancel")), products_path, :class => 'btn btn-default'

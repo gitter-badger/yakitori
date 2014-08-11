@@ -1,27 +1,33 @@
-%p#notice= notice
+- model_class = Product
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human.titleize
 
 %p
-  %b Product name:
-  = @product.product_name
+  %strong= model_class.human_attribute_name(:name) + ':'
+  %br
+  = @product.name
 %p
-  %b Version:
+  %strong= model_class.human_attribute_name(:version) + ':'
+  %br
   = @product.version
 %p
-  %b Genre:
-  = @product.genre_id
+  %strong= model_class.human_attribute_name(:genre) + ':'
+  %br
+  = @product.genre
 %p
-  %b Thumbnail url:
+  %strong= model_class.human_attribute_name(:thumbnail_url) + ':'
+  %br
   = @product.thumbnail_url
 %p
-  %b Product data url:
-  = @product.product_data_url
+  %strong= model_class.human_attribute_name(:data_url) + ':'
+  %br
+  = @product.data_url
 %p
-  %b Category:
-  = @product.category_id
-%p
-  %b Package:
-  = @product.package_id
+  %strong= model_class.human_attribute_name(:category) + ':'
+  %br
+  = @product.category
 
-= link_to 'Edit', edit_product_path(@product)
-\|
-= link_to 'Back', products_path
+
+= link_to t('.back', :default => t("helpers.links.back")), products_path, :class => 'btn btn-default'
+= link_to t('.edit', :default => t("helpers.links.edit")), edit_product_path(@product), :class => 'btn btn-default'
+= link_to t('.destroy', :default => t("helpers.links.destroy")), product_path(@product), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'

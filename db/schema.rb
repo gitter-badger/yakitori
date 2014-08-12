@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20140812084906) do
     t.integer  "area"
     t.string   "optimum_plan"
     t.integer  "task_id"
+    t.integer  "price_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

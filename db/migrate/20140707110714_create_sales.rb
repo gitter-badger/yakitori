@@ -18,6 +18,7 @@ class CreateSales < ActiveRecord::Migration
       t.integer :area
       t.string :optimum_plan
       t.integer :task_id
+      t.integer :price_id    
 
       t.timestamps
     end

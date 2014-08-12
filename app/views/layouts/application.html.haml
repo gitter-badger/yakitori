@@ -25,11 +25,12 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.navbar-brand(href="#") Yakitori
+        %a.navbar-brand(href="/") Home
         .navbar-collapse.collapse.navbar-responsive-collapse
           %ul.nav.navbar-nav
-            %li= link_to "Link 1", "/path1"
-            %li= link_to "Link 2", "/path2"
+            %li= link_to "タスク", "/list_task"
+            %li= link_to "素材", "/list_product"
+            %li= link_to "商品", "/list_sale"
             - if user_signed_in?
               %li= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }
 

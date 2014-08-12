@@ -1,27 +1,15 @@
 = form_for @product, :html => { :class => 'form-horizontal' } do |f|
   .form-group
-    = f.label :name, :class => 'control-label'
+    = f.label :テンプレート一覧画面での表示名, :class => 'control-label'
     .controls
       = f.text_field :name, :class => 'form-control'
   .form-group
-    = f.label :version, :class => 'control-label'
+    = f.label :このテンプレートの種類, :class => 'control-label'
     .controls
-      = f.text_field :version, :class => 'form-control'
+      = f.select :genre, @product.get_genre_display_obj, :class => 'form-control'
   .form-group
-    = f.label :genre, :class => 'control-label'
+    = f.label :有料または無料テンプレート, :class => 'control-label'
     .controls
-      = f.text_field :genre, :class => 'form-control'
-  .form-group
-    = f.label :thumbnail_url, :class => 'control-label'
-    .controls
-      = f.text_field :thumbnail_url, :class => 'form-control'
-  .form-group
-    = f.label :data_url, :class => 'control-label'
-    .controls
-      = f.text_field :data_url, :class => 'form-control'
-  .form-group
-    = f.label :category, :class => 'control-label'
-    .controls
-      = f.text_field :category, :class => 'form-control'
+      = f.select :category, @product.get_category_display_obj, :class => 'form-control'
   = f.submit nil, :class => 'btn btn-primary'
   = link_to t('.cancel', :default => t("helpers.links.cancel")), products_path, :class => 'btn btn-default'

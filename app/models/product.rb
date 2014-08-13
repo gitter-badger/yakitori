@@ -26,20 +26,10 @@ class Product < ActiveRecord::Base
   }
 
   def get_genre_display_obj
-    obj = []
-    for num in 1..GENRES.length do
-      obj << [GENRES[num.to_s], num.to_s]
-    end
-    return obj
+    return GENRES.map{|k, v| [v, k]}
   end
 
   def get_category_display_obj
-    obj = []
-    for num in 0..3 do
-      if (CATEGORYS.has_key?(num.to_s))
-        obj << [CATEGORYS[num.to_s], num.to_s]
-      end
-    end
-    return obj
+    return CATEGORYS.map{|k, v| [v, k]}
   end
 end

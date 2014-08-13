@@ -28,9 +28,9 @@
         %a.navbar-brand(href="/") Home
         .navbar-collapse.collapse.navbar-responsive-collapse
           %ul.nav.navbar-nav
-            %li= link_to "タスク", "/list_task"
-            %li= link_to "素材", "/list_product"
-            %li= link_to "販売", "/list_sale"
+            %li= link_to "タスク", tasks_path
+            %li= link_to "素材", products_path
+            %li= link_to "販売", sales_path
             - if user_signed_in?
               %li= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }
 
@@ -44,6 +44,6 @@
           .well.sidebar-nav
             %h3 設定
             %ul.nav.nav-list
-              %li= link_to "価格", "/list_price"
+              %li= link_to "価格", prices_path
       %footer
         %p &copy; Company 2014

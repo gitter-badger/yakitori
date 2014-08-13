@@ -15,8 +15,8 @@
       %tr
         %td= link_to product.id, product_path(product)
         %td= product.name
-        %td= (Product.const_get(:GENRES))[product.genre]
-        %td= (Product.const_get(:CATEGORYS))[product.category]
+        %td= Product::GENRES[product.genre]
+        %td= Product::CATEGORYS[product.category]
         %td= product.version
         %td
           = link_to t('.edit', :default => t("helpers.links.edit")), edit_product_path(product), :class => 'btn btn-default btn-xs'

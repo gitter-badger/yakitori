@@ -1,14 +1,14 @@
 = form_for @product, :html => { :class => 'form-horizontal' } do |f|
   .form-group
-    = f.label :テンプレート一覧画面での表示名, :class => 'control-label'
+    = f.label :name, "テンプレート一覧画面での表示名", :class => 'control-label'
     .controls
       = f.text_field :name, :class => 'form-control'
   .form-group
-    = f.label :このテンプレートの種類, :class => 'control-label'
+    = f.label :genre, "このテンプレートの種類", :class => 'control-label'
     .controls
       = f.select :genre, @product.get_genre_display_obj, :class => 'form-control'
   .form-group
-    = f.label :有料または無料テンプレート, :class => 'control-label'
+    = f.label :category, "有料または無料テンプレート", :class => 'control-label'
     .controls
       = f.select :category, @product.get_category_display_obj, :class => 'form-control'
   = f.submit nil, :class => 'btn btn-primary'

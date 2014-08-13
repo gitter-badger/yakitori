@@ -1,14 +1,14 @@
 - model_class = Product
 .page-header
-  %h1=t '.title', :default => "テンプレート一覧"
+  %h1 素材一覧
 %table.table.table-striped
   %thead
     %tr
       %th= model_class.human_attribute_name(:id)
-      %th= "表示名"
-      %th= "種類"
-      %th= "無/有料"
-      %th= "Ver."
+      %th 表示名
+      %th 種類
+      %th 無/有料
+      %th Ver.
       %th=t '.actions', :default => t("helpers.actions")
   %tbody
     - @products.each do |product|

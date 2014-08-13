@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140812084906) do
+ActiveRecord::Schema.define(version: 20140813044725) do
 
   create_table "prices", force: true do |t|
     t.integer  "value"
@@ -55,9 +55,9 @@ ActiveRecord::Schema.define(version: 20140812084906) do
     t.integer  "area"
     t.string   "optimum_plan"
     t.integer  "task_id"
-    t.integer  "price_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "price_id"
   end
 
   create_table "tasks", force: true do |t|

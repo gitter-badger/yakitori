@@ -6,6 +6,10 @@ class Product < ActiveRecord::Base
 
   def default_value
     self.version ||= "1"
+    #thumbnail_urlとdata_urlは本番DBから引き継ぐ連続するIDによって決定される。
+    #その処理は後でかく。
+    self.thumbnail_url ||= "tmp.png"
+    self.data_url ||= "tmp.zip"
   end
 
   

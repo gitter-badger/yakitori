@@ -25,8 +25,6 @@ class ProductsController < ApplicationController
   # POST /products.json
   def create
     @product = Product.new(product_params)
-    @product.thumbnail_url = "tmp.png"
-    @product.data_url = "tmp.zip"
 
     respond_to do |format|
       if @product.save

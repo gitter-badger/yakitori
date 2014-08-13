@@ -25,11 +25,12 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.navbar-brand(href="#") Yakitori
+        %a.navbar-brand(href="/") Home
         .navbar-collapse.collapse.navbar-responsive-collapse
           %ul.nav.navbar-nav
-            %li= link_to "Link 1", "/path1"
-            %li= link_to "Link 2", "/path2"
+            %li= link_to "タスク", tasks_path
+            %li= link_to "素材", products_path
+            %li= link_to "販売", sales_path
             - if user_signed_in?
               %li= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }
 
@@ -41,12 +42,8 @@
           = yield
         .col-lg-3
           .well.sidebar-nav
-            %h3 Sidebar
+            %h3 設定
             %ul.nav.nav-list
-              %li.nav-header Sidebar
-              %li= link_to "Link 1", "/path1"
-              %li= link_to "Link 2", "/path2"
-              - if user_signed_in?
-                %li= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }
+              %li= link_to "価格", prices_path
       %footer
         %p &copy; Company 2014

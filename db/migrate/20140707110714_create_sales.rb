@@ -3,7 +3,6 @@ class CreateSales < ActiveRecord::Migration
     create_table :sales do |t|
       t.string :name
       t.text :description
-      t.integer :price
       t.integer :genre_id
       t.integer :display_order
       t.string :thumbnail_url

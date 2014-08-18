@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20140818010337) do
   create_table "sales", force: true do |t|
     t.string   "name"
     t.text     "description"
+    t.integer  "price"
     t.integer  "genre_id"
     t.integer  "display_order"
     t.string   "thumbnail_url"

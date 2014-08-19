@@ -1,6 +1,7 @@
 class Product < ActiveRecord::Base
   has_many :sale_products
   has_many :sales, :through => :sale_products
+  has_one :genre
 
   before_create :default_value
 
@@ -8,25 +9,13 @@ class Product < ActiveRecord::Base
     self.version ||= "1"
   end
 
-  
-  GENRES = {
-    "1" => "ページ",
-    "2" => "バナー",
-    "3" => "看板",
-    "4" => "お店",
-    "5" => "スマホトップ",
-    "6" => "スマホ大バナー",
-    "7" => "スマホ小バナー",
-    "8" => "スマホLP"
-  }
-
   CATEGORYS = {
     "0" => "無料",
     "3" => "有料"
   }
 
   def get_genre_display_obj
-    return GENRES.map{|k, v| [v, k]}
+    return Genre.all.pluck(:name, :id)
   end
 
   def get_category_display_obj

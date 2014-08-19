@@ -1,0 +1,21 @@
+- model_class = Genre
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human.titleize
+
+%p
+  %strong= model_class.human_attribute_name(:name) + ':'
+  %br
+  = @genre.name
+%p
+  %strong= model_class.human_attribute_name(:pay_label) + ':'
+  %br
+  = @genre.pay_label
+%p
+  %strong= model_class.human_attribute_name(:free_label) + ':'
+  %br
+  = @genre.free_label
+
+
+= link_to t('.back', :default => t("helpers.links.back")), genres_path, :class => 'btn btn-default'
+= link_to t('.edit', :default => t("helpers.links.edit")), edit_genre_path(@genre), :class => 'btn btn-default'
+= link_to t('.destroy', :default => t("helpers.links.destroy")), genre_path(@genre), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'

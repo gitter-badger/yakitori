@@ -17,7 +17,7 @@
         %td= link_to product.id, product_path(product)
         %td= product.label
         %td= product.name
-        %td= Product::GENRES[product.genre]
+        %td= Genre.where(id: product.genre_id).pluck(:name).first
         %td= Product::CATEGORYS[product.category]
         %td= product.version
         %td

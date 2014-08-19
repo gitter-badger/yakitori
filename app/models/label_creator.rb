@@ -29,7 +29,7 @@ class LabelCreator < ActiveRecord::Base
 
   def self.getNowLabel(genre, category)
     begin
-      return Product.where(genre: genre).order("label DESC").first.label.force_encoding("UTF-8")
+      return Product.where(genre_id: genre).order("label DESC").first.label.force_encoding("UTF-8")
     rescue
       #ActiveRecord::RecordNotFound
       return (category == "0") ? NOW_FREE_LABELS[genre] : NOW_PAY_LABELS[genre]

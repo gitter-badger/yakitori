@@ -14,7 +14,10 @@
   %strong= model_class.human_attribute_name(:free_label) + ':'
   %br
   = @genre.free_label
-
+%p
+  %strong= model_class.human_attribute_name(:extension) + ':'
+  %br
+  = @genre.extension
 
 = link_to t('.back', :default => t("helpers.links.back")), genres_path, :class => 'btn btn-default'
 = link_to t('.edit', :default => t("helpers.links.edit")), edit_genre_path(@genre), :class => 'btn btn-default'

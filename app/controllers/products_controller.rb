@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
   end
 
   # GET /products/1
-  # GET /products/1.json
+
   def show
   end
 
@@ -26,15 +26,15 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
 
-    @product.label = LabelCreator.getNextLabel(@product.genre, @product.category)
-    @product.thumbnail_url = @product.label + "." + params[:product][:thumbnail_url].original_filename.split(".").pop()
-    @product.data_url = @product.label + "." + params[:product][:data_url].original_filename.split(".").pop()
-
-    fileSave("./var/thumb/" << @product.thumbnail_url, params[:product][:thumbnail_url])
-    fileSave("./var/data/" << @product.data_url, params[:product][:data_url])
+    thumb_file = params[:product][:thumbnail_url]
+    data_file = params[:product][:data_url]
+    
+    @product.label = @product.get_next_label()
+    @product.thumbnail_url = @product.label + File.extname(thumb_file.original_filename)
+    @product.data_url = @product.label + File.extname(data_file.original_filename)
 
     respond_to do |format|
-      if @product.save
+      if @product.save && save_files(thumb_file, data_file)
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
@@ -44,11 +44,35 @@ class ProductsController < ApplicationController
     end
   end
 
-  def fileSave(path, action)
-    of = File.open(path, 'w')
-    of.write(action.read.force_encoding("UTF-8"))
-    of.close
+  def save_files(thumb_file, data_file)
+    thumb_exts = [
+      ".jpg",
+      ".jpeg",
+      ".png",
+      ".gif",
+      ".bmp"
+    ]
+
+    base = Rails.root.join("var")
+    return save_file(:thumbnail_url, base.join("thumb").join(@product.thumbnail_url).to_s, thumb_file, thumb_exts) &&
+      save_file(:data_url, base.join("data").join(@product.data_url).to_s, data_file, Genre.where(id: @product.genre_id).pluck(:extension))
   end
+  private :save_files
+
+  #TODO nakao 引数渡しすぎもっとスマートに書けるはず
+  def save_file(prop, path, file, exts)
+    #TODO nakao 連続2回の作成で拡張子チェックをなぜかパスしてしまう
+    if exts.include?(File.extname(path)) == false
+      #TODO nakao エラー表示の仕方はこれで正しい？
+      @product.errors.add(prop, "missing extension : " + path)
+      return false
+    end
+    File.open(path, 'w'){|f| 
+      f.write(file.read.force_encoding("UTF-8"))
+    }
+    return true
+  end
+  private :save_file
 
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
@@ -82,6 +106,6 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:name, :genre_id, :category, :thumbnail_url, :data_url)
+      params.require(:product).permit(:name, :genre_id, :category)
     end
 end

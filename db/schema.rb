@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140819040821) do
+ActiveRecord::Schema.define(version: 20140819075658) do
 
   create_table "genres", force: true do |t|
     t.string   "name"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20140819040821) do
     t.string   "free_label"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "extension"
   end
 
   create_table "prices", force: true do |t|

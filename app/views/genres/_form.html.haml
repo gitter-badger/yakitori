@@ -11,5 +11,9 @@
     = f.label :free_label, :class => 'control-label'
     .controls
       = f.text_field :free_label, :class => 'form-control'
+  .form-group
+    = f.label :extension, :class => 'control-label'
+    .controls
+      = f.text_field :extension, :class => 'form-control'
   = f.submit nil, :class => 'btn btn-primary'
   = link_to t('.cancel', :default => t("helpers.links.cancel")), genres_path, :class => 'btn btn-default'

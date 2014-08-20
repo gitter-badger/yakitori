@@ -27,14 +27,14 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     thumb_file = params[:product][:thumbnail_file]
-    data_file = params[:product][:exported_file]
+    exported_file = params[:product][:exported_file]
     
-    @product.label = @product.get_next_label()
+    @product.label = @product.next_label()
     @product.thumbnail_name = @product.label + File.extname(thumb_file.original_filename)
-    @product.exported_name = @product.label + File.extname(data_file.original_filename)
+    @product.exported_name = @product.label + File.extname(exported_file.original_filename)
 
     respond_to do |format|
-      if @product.save && save_files(thumb_file, data_file)
+      if @product.save && save_files(thumb_file, exported_file)
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else

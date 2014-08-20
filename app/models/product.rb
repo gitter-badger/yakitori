@@ -16,20 +16,28 @@ class Product < ActiveRecord::Base
     "3" => "有料"
   }
 
-  def get_genre_display_obj
+  def genre_display_obj
     return Genre.pluck(:name, :id)
   end
 
-  def get_category_display_obj
+  def category_display_obj
     return CATEGORYS.map{|k, v| [v, k]}
   end
 
-  def get_next_label
-    return count_up get_current_label
+  def genre_name
+    Genre.where(id: self.genre_id).pluck(:name).first
+  end
+ 
+  def category_name
+    Product::CATEGORYS[self.category]
+  end
+
+  def next_label
+    return count_up current_label
   end
 
   private
-    def get_current_label
+    def current_label
       first = Product.where(genre_id: self.genre_id).where(category: self.category).order("label DESC").first
       if first
         return first.label

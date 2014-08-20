@@ -6,11 +6,11 @@
   .form-group
     = f.label :genre_id, "このテンプレートの種類", :class => 'control-label'
     .controls
-      = f.select :genre_id, @product.get_genre_display_obj, :class => 'form-control'
+      = f.select :genre_id, @product.genre_display_obj, :class => 'form-control'
   .form-group
     = f.label :category, "有料または無料テンプレート", :class => 'control-label'
     .controls
-      = f.select :category, @product.get_category_display_obj, :class => 'form-control'
+      = f.select :category, @product.category_display_obj, :class => 'form-control'
   .form-group
     = f.label :thumbnail_file, "一覧画面上でのサムネイル画像", :class => 'control-label' 
     .controls

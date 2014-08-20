@@ -17,8 +17,8 @@
         %td= link_to product.id, product_path(product)
         %td= product.label
         %td= product.name
-        %td= Genre.where(id: product.genre_id).pluck(:name).first
-        %td= Product::CATEGORYS[product.category]
+        %td= product.genre_name
+        %td= product.category_name
         %td= product.version
         %td
           = link_to t('.edit', :default => t("helpers.links.edit")), edit_product_path(product), :class => 'btn btn-default btn-xs'

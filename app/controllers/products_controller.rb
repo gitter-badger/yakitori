@@ -26,12 +26,12 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
 
-    thumb_file = params[:product][:thumbnail_url]
-    data_file = params[:product][:data_url]
+    thumb_file = params[:product][:thumbnail_file]
+    data_file = params[:product][:exported_file]
     
     @product.label = @product.get_next_label()
-    @product.thumbnail_url = @product.label + File.extname(thumb_file.original_filename)
-    @product.data_url = @product.label + File.extname(data_file.original_filename)
+    @product.thumbnail_name = @product.label + File.extname(thumb_file.original_filename)
+    @product.exported_name = @product.label + File.extname(data_file.original_filename)
 
     respond_to do |format|
       if @product.save && save_files(thumb_file, data_file)
@@ -54,8 +54,8 @@ class ProductsController < ApplicationController
     ]
 
     base = Rails.root.join("var")
-    return save_file(:thumbnail_url, base.join("thumb").join(@product.thumbnail_url).to_s, thumb_file, thumb_exts) &&
-      save_file(:data_url, base.join("data").join(@product.data_url).to_s, data_file, Genre.where(id: @product.genre_id).pluck(:extension))
+    return save_file(:thumbnail_name, base.join("thumb").join(@product.thumbnail_name).to_s, thumb_file, thumb_exts) &&
+      save_file(:exported_name, base.join("data").join(@product.exported_name).to_s, data_file, Genre.where(id: @product.genre_id).pluck(:extension))
   end
   private :save_files
 
@@ -106,6 +106,6 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:name, :genre_id, :category)
+      params.require(:product).permit(:name, :genre_id, :category, :thumbnail_file, :exported_file)
     end
 end

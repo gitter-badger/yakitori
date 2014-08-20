@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140819075658) do
+ActiveRecord::Schema.define(version: 20140820042625) do
 
   create_table "genres", force: true do |t|
     t.string   "name"
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 20140819075658) do
   create_table "products", force: true do |t|
     t.string   "name"
     t.string   "version"
-    t.string   "thumbnail_url"
-    t.string   "data_url"
+    t.string   "thumbnail_name"
+    t.string   "exported_name"
     t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"

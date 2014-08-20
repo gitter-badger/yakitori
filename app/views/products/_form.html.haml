@@ -12,12 +12,12 @@
     .controls
       = f.select :category, @product.get_category_display_obj, :class => 'form-control'
   .form-group
-    = f.label :thumbnail_url, "一覧画面上でのサムネイル画像", :class => 'control-label' 
+    = f.label :thumbnail_file, "一覧画面上でのサムネイル画像", :class => 'control-label' 
     .controls
-      = f.file_field :thumbnail_url, :class => 'form-control', :accept => 'image/*'
+      = f.file_field :thumbnail_file, :class => 'form-control', :accept => 'image/*'
   .form-group
-    = f.label :data_url, "エクスポートデータ", :class => 'control-label'
+    = f.label :exported_file, "エクスポートデータ", :class => 'control-label'
     .controls
-      = f.file_field :data_url, :class => 'form-control'
+      = f.file_field :exported_file, :class => 'form-control'
   = f.submit nil, :class => 'btn btn-primary'
   = link_to t('.cancel', :default => t("helpers.links.cancel")), products_path, :class => 'btn btn-default'

@@ -4,6 +4,7 @@ class Product < ActiveRecord::Base
   has_one :genre
 
   before_create :default_value
+  after_create :save_files
 
   def default_value
     self.version ||= "1"
@@ -27,7 +28,11 @@ class Product < ActiveRecord::Base
   def genre_name
     Genre.where(id: self.genre_id).pluck(:name).first
   end
- 
+
+  def genre_exts
+    Genre.where(id: self.genre_id).pluch(:extension)
+  end
+
   def category_name
     Product::CATEGORYS[self.category]
   end
@@ -60,4 +65,34 @@ class Product < ActiveRecord::Base
     def free?
       return self.category == "0"
     end
+
+    def save_files
+      thumb_exts = [
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".gif",
+        ".bmp"
+      ]
+
+      self.label = self.next_label
+      self.thumbnail_name = self.label + File.extname(self.thumbnail_file.original_filename)
+      self.exported_name = self.label + File.extname(self.exported_file.original_filename)
+      self.save
+
+      base = Rails.root.join("var")
+      save_file(base.join("thumb").join(self.thumbnail_name).to_s, self.thumbnail_file)
+      save_file(base.join("data").join(self.exported_name).to_s, self.exported_file)
+    end
+
+    def safe_ext?(path, exts)
+      return exts.include?(File.extname(path))
+    end
+
+    def save_file(path, file)
+      File.open(path, 'w'){|f| 
+        f.write(file.read.force_encoding("UTF-8"))
+      }
+    end
+
 end

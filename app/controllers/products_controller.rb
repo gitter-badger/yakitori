@@ -26,15 +26,8 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
 
-    thumb_file = params[:product][:thumbnail_file]
-    exported_file = params[:product][:exported_file]
-    
-    @product.label = @product.next_label()
-    @product.thumbnail_name = @product.label + File.extname(thumb_file.original_filename)
-    @product.exported_name = @product.label + File.extname(exported_file.original_filename)
-
     respond_to do |format|
-      if @product.save && save_files(thumb_file, exported_file)
+      if @product.save
         format.html { redirect_to @product, notice: 'Product was successfully created.' }
         format.json { render :show, status: :created, location: @product }
       else
@@ -43,36 +36,6 @@ class ProductsController < ApplicationController
       end
     end
   end
-
-  def save_files(thumb_file, data_file)
-    thumb_exts = [
-      ".jpg",
-      ".jpeg",
-      ".png",
-      ".gif",
-      ".bmp"
-    ]
-
-    base = Rails.root.join("var")
-    return save_file(:thumbnail_name, base.join("thumb").join(@product.thumbnail_name).to_s, thumb_file, thumb_exts) &&
-      save_file(:exported_name, base.join("data").join(@product.exported_name).to_s, data_file, Genre.where(id: @product.genre_id).pluck(:extension))
-  end
-  private :save_files
-
-  #TODO nakao 引数渡しすぎもっとスマートに書けるはず
-  def save_file(prop, path, file, exts)
-    #TODO nakao 連続2回の作成で拡張子チェックをなぜかパスしてしまう
-    if exts.include?(File.extname(path)) == false
-      #TODO nakao エラー表示の仕方はこれで正しい？
-      @product.errors.add(prop, "missing extension : " + path)
-      return false
-    end
-    File.open(path, 'w'){|f| 
-      f.write(file.read.force_encoding("UTF-8"))
-    }
-    return true
-  end
-  private :save_file
 
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json

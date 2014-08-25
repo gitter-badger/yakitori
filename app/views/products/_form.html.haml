@@ -1,6 +1,11 @@
 = form_for @product, :html => { :class => 'form-horizontal' } do |f|
+  = if @product.errors.any?
+    .error_explanation
+      %h2= "#{@product.errors.count.to_s}件のエラーがあります。" 
+      = @product.errors.full_messages.each do |msg|
+        %li= msg
   .form-group
-    = f.label :name, "テンプレート一覧画面での表示名", :class => 'control-label'
+    = f.label :name, "テンプレート一覧画面での表示名", :class => 'required', :class => 'control-label'
     .controls
       = f.text_field :name, :class => 'form-control'
   .form-group

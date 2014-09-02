@@ -1,7 +1,7 @@
 class Product < ActiveRecord::Base
   has_many :sale_products
   has_many :sales, :through => :sale_products
-  has_one :genre
+  belongs_to :genre
 
   before_create :default_value
   before_save :save_files
@@ -22,7 +22,7 @@ class Product < ActiveRecord::Base
 
   def exported_file_format_check
     if (exported_file && exported_file.original_filename !~ %r{\.(sklp|skbn)\z}i)
-    errors.add(:exported_file, "クスポートデータの拡張子が不正です。") 
+    errors.add(:exported_file, "エクスポートデータの拡張子が不正です。") 
     end
   end
   
@@ -35,20 +35,20 @@ class Product < ActiveRecord::Base
     "3" => "有料"
   }
 
-  def genre_display_obj
+  def genre_choices
     return Genre.pluck(:name, :id)
   end
 
-  def category_display_obj
+  def category_choices
     return CATEGORYS.map{|k, v| [v, k]}
   end
 
   def genre_name
-    Genre.where(id: self.genre_id).pluck(:name).first
+    return self.genre.name
   end
 
   def genre_exts
-    Genre.where(id: self.genre_id).pluch(:extension)
+    return self.genre.extension
   end
 
   def category_name

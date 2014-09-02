@@ -11,17 +11,17 @@
   %br
   = @product.version
 %p
-  %strong= model_class.human_attribute_name(:genre) + ':'
+  %strong= model_class.human_attribute_name(:genre_id) + ':'
   %br
-  = @product.genre
+  = @product.genre_id
 %p
-  %strong= model_class.human_attribute_name(:thumbnail_url) + ':'
+  %strong= model_class.human_attribute_name(:thumbnail_name) + ':'
   %br
-  = @product.thumbnail_url
+  = @product.thumbnail_name
 %p
-  %strong= model_class.human_attribute_name(:data_url) + ':'
+  %strong= model_class.human_attribute_name(:exported_name) + ':'
   %br
-  = @product.data_url
+  = @product.exported_name
 %p
   %strong= model_class.human_attribute_name(:category) + ':'
   %br

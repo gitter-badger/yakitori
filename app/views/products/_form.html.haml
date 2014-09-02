@@ -1,21 +1,21 @@
 = form_for @product, :html => { :class => 'form-horizontal' } do |f|
-  = if @product.errors.any?
+  - if @product.errors.any?
     .error_explanation
-      %h2= "#{@product.errors.count.to_s}件のエラーがあります。" 
-      = @product.errors.full_messages.each do |msg|
+      %h2= @product.errors.count.to_s + "件のエラーがあります。" 
+      - @product.errors.full_messages.each do |msg|
         %li= msg
   .form-group
-    = f.label :name, "テンプレート一覧画面での表示名", :class => 'required', :class => 'control-label'
+    = f.label :name, "テンプレート一覧画面での表示名", :class => 'control-label'
     .controls
       = f.text_field :name, :class => 'form-control'
   .form-group
     = f.label :genre_id, "このテンプレートの種類", :class => 'control-label'
     .controls
-      = f.select :genre_id, @product.genre_display_obj, :class => 'form-control'
+      = f.select :genre_id, @product.genre_choices, :class => 'form-control'
   .form-group
     = f.label :category, "有料または無料テンプレート", :class => 'control-label'
     .controls
-      = f.select :category, @product.category_display_obj, :class => 'form-control'
+      = f.select :category, @product.category_choices, :class => 'form-control'
   .form-group
     = f.label :thumbnail_file, "一覧画面上でのサムネイル画像", :class => 'control-label' 
     .controls

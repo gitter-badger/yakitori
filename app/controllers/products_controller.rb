@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
   end
 
   # GET /products/1
-  # GET /products/1.json
+
   def show
   end
 
@@ -69,6 +69,6 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:name, :genre, :category)
+      params.require(:product).permit(:name, :genre_id, :category, :thumbnail_file, :exported_file)
     end
 end

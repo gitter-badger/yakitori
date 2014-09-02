@@ -5,6 +5,7 @@
   %thead
     %tr
       %th= model_class.human_attribute_name(:id)
+      %th ラベル
       %th 表示名
       %th 種類
       %th 無/有料
@@ -14,9 +15,10 @@
     - @products.each do |product|
       %tr
         %td= link_to product.id, product_path(product)
+        %td= product.label
         %td= product.name
-        %td= Product::GENRES[product.genre]
-        %td= Product::CATEGORYS[product.category]
+        %td= product.genre.name
+        %td= product.category_name
         %td= product.version
         %td
           = link_to t('.edit', :default => t("helpers.links.edit")), edit_product_path(product), :class => 'btn btn-default btn-xs'

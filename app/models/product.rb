@@ -43,14 +43,6 @@ class Product < ActiveRecord::Base
     return CATEGORYS.map{|k, v| [v, k]}
   end
 
-  def genre_name
-    return self.genre.name
-  end
-
-  def genre_exts
-    return self.genre.extension
-  end
-
   def category_name
     Product::CATEGORYS[self.category]
   end

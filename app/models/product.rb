@@ -1,4 +1,7 @@
 class Product < ActiveRecord::Base
+
+
+  
   has_many :sale_products
   has_many :sales, :through => :sale_products
   belongs_to :genre
@@ -79,17 +82,33 @@ class Product < ActiveRecord::Base
     def save_files
       self.label = self.next_label
       self.thumbnail_name = self.label + File.extname(self.thumbnail_file.original_filename)
-      self.exported_name = self.label + File.extname(self.exported_file.original_filename)
+      self.exported_name = self.label + ".zip"
 
       base = Rails.root.join("var")
-      save_file(base.join("thumb").join(self.thumbnail_name).to_s, self.thumbnail_file)
-      save_file(base.join("data").join(self.exported_name).to_s, self.exported_file)
+      save_file(self.thumbnail_file, base.join("thumb", self.thumbnail_name).to_s)
+      save_file(self.exported_file,  base.join("tmp", self.exported_name).to_s)
+      unzip(base.join("tmp", self.exported_name).to_s, base.join("tmp", self.label).to_s)
     end
 
-    def save_file(path, file)
-      File.open(path, 'w'){|f| 
-        f.write(file.read.force_encoding("UTF-8"))
+    def save_file(src_file, dist)
+      File.open(dist, 'w'){|f| 
+        f.write(src_file.read.force_encoding("UTF-8"))
       }
     end
 
+    def unzip(src, dist)
+      Zip::Archive.open(src) do |arc|
+        arc.num_files.times do |i|
+          arc.fopen(arc.get_name(i)) do |file|
+            if file.directory? then
+              puts FileUtils.mkdir_p(File.join(dist, file.name).to_s)
+            else
+              File.open(File.join(dist, file.name).to_s, "w") do |f|
+                f.write file.read.force_encoding("UTF-8")
+              end
+            end
+          end
+        end
+      end
+    end
 end

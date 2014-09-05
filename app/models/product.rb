@@ -88,6 +88,7 @@ class Product < ActiveRecord::Base
       save_file(self.thumbnail_file, base.join("thumb", self.thumbnail_name).to_s)
       save_file(self.exported_file,  base.join("tmp", self.exported_name).to_s)
       unzip(base.join("tmp", self.exported_name).to_s, base.join("tmp", self.label).to_s)
+      self.genre.filter(base.join("tmp", self.label).to_s, base.join("data", self.label).to_s)
     end
 
     def save_file(src_file, dist)

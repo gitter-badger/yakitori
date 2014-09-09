@@ -45,6 +45,7 @@ gem 'therubyracer'
 gem 'less-rails' #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git', :branch => 'bootstrap3'
 gem 'zipruby', '~> 0.3.6'
+gem 'digest'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'

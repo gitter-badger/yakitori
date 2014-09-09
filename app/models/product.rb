@@ -77,30 +77,58 @@ class Product < ActiveRecord::Base
       return self.category == '0'
     end
 
-    def save_files
+    def before_save
+      set_property()
+
+      var = Rails.root.join('var')
+      save_thumb(var.join('thumb', self.thumbnail_name).to_s)
+
+      zip_path = var.join('tmp', self.exported_name).to_s
+      unzip_path = var.join('tmp', self.label).to_s
+      save_exported(zip_path)
+      unzip_exported(zip_path, unzip_path)
+
+      retouched_path = var.join('data', self.label).to_s
+      created_zip_path = var.join('data', self.exported_name).to_s
+      retouch_exported(unzip_path, retouched_path)
+      zip_exported(retouched_path, created_zip_path)
+
+      Zip::Archive.encrypt(created_zip_path, zip_pass)
+    end
+
+    def set_property
       self.label = self.next_label
       self.thumbnail_name = self.label + File.extname(self.thumbnail_file.original_filename)
       self.exported_name = self.label + '.zip'
-
-      base = Rails.root.join("var")
-      save_file(self.thumbnail_file, base.join("thumb", self.thumbnail_name).to_s)
-      save_file(self.exported_file,  base.join("tmp", self.exported_name).to_s)
-      unzip(base.join("tmp", self.exported_name).to_s, base.join("tmp", self.label).to_s)
-      self.genre.filter(base.join("tmp", self.label).to_s, base.join("data", self.label).to_s)
     end
 
-    def save_file(src_file, dist)
-      File.open(dist, 'w'){|f| 
+    def save_thumb(dest)
+      save_file(self.thumbnail_file, dest)
+    end
+
+    def save_exported(dest)
+      save_file(self.exported_file, dest)
+    end
+
+    def retouch_exported(src, dest)
+      self.genre.filter(src, dest)
+      self.genre.trimming(dest)
+      self.genre.create_meta_xml(dest, (free?) ? '' : self.label)
+    end
+
+    def save_file(src_file, dest)
+      File.open(dest, 'w'){|f|
         f.write(src_file.read.force_encoding('UTF-8'))
       }
     end
 
-    def unzip(src, dist)
+    def unzip_exported(src, dest)
       Zip::Archive.open(src) do |arc|
+        arc.decrypt(unzip_pass)
         arc.num_files.times do |i|
           arc.fopen(arc.get_name(i)) do |file|
             if file.directory? then
-              puts FileUtils.mkdir_p(File.join(dist, file.name).to_s)
+              puts FileUtils.mkdir_p(File.join(dest, file.name).to_s)
             else
               File.open(File.join(dest, file.name).to_s, 'w') do |f|
                 f.write file.read.force_encoding('UTF-8')
@@ -109,5 +137,22 @@ class Product < ActiveRecord::Base
           end
         end
       end
+    end
+
+    def zip_exported(src, dest)
+      Zip::Archive.open(dest, Zip::CREATE) do |ar|
+        Dir.glob(src + '/**/*').each do |path|
+          unless File.directory?(path)
+            # add_file(<entry name>, <source path>)
+            ar.add_file(path.gsub(/#{src}\//, ''), path)
+          end
+        end
+      end
+    end
+
+    def unzip_pass
+    end
+
+    def zip_pass
     end
 end

@@ -1,41 +1,39 @@
+require 'find'
 class Product < ActiveRecord::Base
-
-
-  
   has_many :sale_products
   has_many :sales, :through => :sale_products
   belongs_to :genre
 
   before_create :default_value
-  before_save :save_files
+  before_save :before_save
   
   attr_accessor :thumbnail_file, :exported_file
   
-  validates :name, :genre_id,:category, :thumbnail_file, :exported_file,  presence: {message: "すべての項目が入力必須です。"}
-  validates :name, uniqueness: {message: "この表示名は既に使用されています。"}
+  validates :name, :genre_id,:category, :thumbnail_file, :exported_file,  presence: {message: 'すべての項目が入力必須です。'}
+  validates :name, uniqueness: {message: 'この表示名は既に使用されています。'}
   validates :genre_id, numericality: true
   validate :thumbnail_file_format_check
   validate :exported_file_format_check
 
   def thumbnail_file_format_check
     if (thumbnail_file && thumbnail_file.original_filename !~ %r{\.(bmp|gif|jpg|jpeg|png)\z}i)
-      errors.add(:thumbnail_file, "サムネイル画像の拡張子が不正です。")
+      errors.add(:thumbnail_file, 'サムネイル画像の拡張子が不正です。')
     end
   end
 
   def exported_file_format_check
     if (exported_file && exported_file.original_filename !~ %r{\.(sklp|skbn)\z}i)
-    errors.add(:exported_file, "エクスポートデータの拡張子が不正です。") 
+    errors.add(:exported_file, 'エクスポートデータの拡張子が不正です。')
     end
   end
   
   def default_value
-    self.version ||= "1"
+    self.version ||= '1'
   end
   
   CATEGORYS = {
-    "0" => "無料",
-    "3" => "有料"
+    '0' => '無料',
+    '3' => '有料'
   }
 
   def genre_choices
@@ -56,11 +54,11 @@ class Product < ActiveRecord::Base
 
   private
     def current_label
-      first = Product.where(genre_id: self.genre_id).where(category: self.category).order("label DESC").first
+      first = Product.where(genre_id: self.genre_id).where(category: self.category).order('label DESC').first
       if first
         return first.label
       else
-       return free? ? Genre.where(id: self.genre_id).pluck(:free_label).first : 
+       return free? ? Genre.where(id: self.genre_id).pluck(:free_label).first :
           Genre.where(id: self.genre_id).pluck(:pay_label).first
       end
     end
@@ -68,21 +66,21 @@ class Product < ActiveRecord::Base
     def count_up(label)
       if free?
         counter = label[2, 4].to_i(10)
-        return "F" +  self.genre_id.to_s + format("%04d", counter + 1)
+        return 'F' +  self.genre_id.to_s + format('%04d', counter + 1)
       else
         counter = label[1, 3].hex
-        return self.genre_id.to_s + format("%03x", counter + 1)
+        return self.genre_id.to_s + format('%03x', counter + 1)
       end
     end
 
     def free?
-      return self.category == "0"
+      return self.category == '0'
     end
 
     def save_files
       self.label = self.next_label
       self.thumbnail_name = self.label + File.extname(self.thumbnail_file.original_filename)
-      self.exported_name = self.label + ".zip"
+      self.exported_name = self.label + '.zip'
 
       base = Rails.root.join("var")
       save_file(self.thumbnail_file, base.join("thumb", self.thumbnail_name).to_s)
@@ -93,7 +91,7 @@ class Product < ActiveRecord::Base
 
     def save_file(src_file, dist)
       File.open(dist, 'w'){|f| 
-        f.write(src_file.read.force_encoding("UTF-8"))
+        f.write(src_file.read.force_encoding('UTF-8'))
       }
     end
 
@@ -104,8 +102,8 @@ class Product < ActiveRecord::Base
             if file.directory? then
               puts FileUtils.mkdir_p(File.join(dist, file.name).to_s)
             else
-              File.open(File.join(dist, file.name).to_s, "w") do |f|
-                f.write file.read.force_encoding("UTF-8")
+              File.open(File.join(dest, file.name).to_s, 'w') do |f|
+                f.write file.read.force_encoding('UTF-8')
               end
             end
           end

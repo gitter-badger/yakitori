@@ -1,5 +1,9 @@
 = form_for @genre, :html => { :class => 'form-horizontal' } do |f|
   .form-group
+    = f.label :id_label, :class => 'control-label'
+    .controls
+      = f.text_field :id_label, :class => 'form-control'
+  .form-group
     = f.label :name, :class => 'control-label'
     .controls
       = f.text_field :name, :class => 'form-control'

@@ -3,8 +3,7 @@ class Product < ActiveRecord::Base
   has_many :sales, :through => :sale_products
   belongs_to :genre
 
-  before_create :default_value
-  before_save :before_save
+  before_save :set_property, :save_thumb, :save_exported_as_zip
   
   attr_accessor :thumbnail_file, :exported_file
   
@@ -25,133 +24,132 @@ class Product < ActiveRecord::Base
     errors.add(:exported_file, 'エクスポートデータの拡張子が不正です。')
     end
   end
-  
-  def default_value
-    self.version ||= '1'
-  end
-  
-  CATEGORYS = {
+
+  CATEGORIES = {
     '0' => '無料',
     '3' => '有料'
   }
 
   def genre_choices
-    return Genre.pluck(:name, :id)
+    Genre.pluck(:name, :id_label)
   end
 
   def category_choices
-    return CATEGORYS.map{|k, v| [v, k]}
+    CATEGORIES.map{|k, v| [v, k]}
   end
 
   def category_name
-    Product::CATEGORYS[self.category]
+    Product::CATEGORIES[category]
   end
 
   def next_label
-    return count_up current_label
+    count_up current_label
   end
 
   private
+
     def current_label
-      first = Product.where(genre_id: self.genre_id).where(category: self.category).order('label DESC').first
+      first = Product.where(genre_id: genre_id, category: category).order('label DESC').first
       if first
-        return first.label
+        first.label
       else
-       return free? ? Genre.where(id: self.genre_id).pluck(:free_label).first :
-          Genre.where(id: self.genre_id).pluck(:pay_label).first
+        free? ? Genre.where(id: genre_id).pluck(:free_label).first :
+          Genre.where(id: genre_id).pluck(:pay_label).first
       end
     end
 
     def count_up(label)
       if free?
         counter = label[2, 4].to_i(10)
-        return 'F' +  self.genre_id.to_s + format('%04d', counter + 1)
+        'F' + genre_id.to_s + format('%04d', counter + 1)
       else
         counter = label[1, 3].hex
-        return self.genre_id.to_s + format('%03x', counter + 1)
+        genre_id.to_s + format('%03x', counter + 1)
       end
     end
 
     def free?
-      return self.category == '0'
-    end
-
-    def before_save
-      set_property()
-
-      var = Rails.root.join('var')
-      save_thumb(var.join('thumb', self.thumbnail_name).to_s)
-
-      zip_path = var.join('tmp', self.exported_name).to_s
-      unzip_path = var.join('tmp', self.label).to_s
-      save_exported(zip_path)
-      unzip_exported(zip_path, unzip_path)
-
-      retouched_path = var.join('data', self.label).to_s
-      created_zip_path = var.join('data', self.exported_name).to_s
-      retouch_exported(unzip_path, retouched_path)
-      zip_exported(retouched_path, created_zip_path)
-
-      Zip::Archive.encrypt(created_zip_path, zip_pass)
+      category == '0'
     end
 
     def set_property
       self.label = self.next_label
       self.thumbnail_name = self.label + File.extname(self.thumbnail_file.original_filename)
       self.exported_name = self.label + '.zip'
+      self.version ||= '1'
     end
 
-    def save_thumb(dest)
-      save_file(self.thumbnail_file, dest)
+    def save_thumb
+      dest = Rails.root.join('var', 'thumb', thumbnail_name).to_s
+      Utils.write_str(self.thumbnail_file.read.force_encoding('UTF-8'), dest)
     end
 
-    def save_exported(dest)
-      save_file(self.exported_file, dest)
+    def save_exported_as_zip
+      tmp = Rails.root.join('var', 'tmp')
+      data = Rails.root.join('var', 'data')
+
+      tmp_zip_path = tmp.join(exported_name).to_s
+      Utils.write_str(exported_file.read.force_encoding('UTF-8'), tmp_zip_path)
+
+      unzipped_path = tmp.join(label).to_s
+      Utils.unzip_with_pass(tmp_zip_path, unzipped_path, Product.unzip_pass)
+
+      edited_path = data.join(label).to_s
+      edit_exported(unzipped_path, edited_path)
+
+      zip_path = data.join(exported_name).to_s
+      Utils.zip_with_pass(edited_path, zip_path, Product.zip_pass)
     end
 
-    def retouch_exported(src, dest)
-      self.genre.filter(src, dest)
-      self.genre.trimming(dest)
-      self.genre.create_meta_xml(dest, (free?) ? '' : self.label)
+    def edit_exported(src, dest)
+      xml = create_meta_xml(generate_hash(Product.unique_str(src)))
+      Utils.write_str(xml.to_s, File.join(src, 'meta.xml'))
+
+      genre.edit(src)
+
+      genre.pickup(src, dest)
     end
 
-    def save_file(src_file, dest)
-      File.open(dest, 'w'){|f|
-        f.write(src_file.read.force_encoding('UTF-8'))
-      }
+    def create_meta_xml(hash_str)
+      id = REXML::Element.new('id')
+      id.add_text((free?) ? '' : label)
+
+      genre = REXML::Element.new('genre')
+      genre.add_text(genre_id.to_s)
+
+      hash = REXML::Element.new('hash')
+      hash.add_text(hash_str)
+
+      version = REXML::Element.new('version')
+      version.add_text(self.version)
+
+      setting = REXML::Element.new('setting')
+      setting.add_element(id)
+      setting.add_element(genre)
+      setting.add_element(hash)
+      setting.add_element(version)
+
+      doc = REXML::Document.new()
+      doc.add(REXML::XMLDecl.new(version='1.0', encoding='UTF-8'))
+      doc.add(setting)
     end
 
-    def unzip_exported(src, dest)
-      Zip::Archive.open(src) do |arc|
-        arc.decrypt(unzip_pass)
-        arc.num_files.times do |i|
-          arc.fopen(arc.get_name(i)) do |file|
-            if file.directory? then
-              puts FileUtils.mkdir_p(File.join(dest, file.name).to_s)
-            else
-              File.open(File.join(dest, file.name).to_s, 'w') do |f|
-                f.write file.read.force_encoding('UTF-8')
-              end
-            end
-          end
-        end
-      end
+    def generate_hash(unique_str)
+      product_id = (free?) ? '' : label
+      Digest::SHA256.hexdigest(product_id + unique_str + Product.salt).encode('UTF-8')
     end
 
-    def zip_exported(src, dest)
-      Zip::Archive.open(dest, Zip::CREATE) do |ar|
-        Dir.glob(src + '/**/*').each do |path|
-          unless File.directory?(path)
-            # add_file(<entry name>, <source path>)
-            ar.add_file(path.gsub(/#{src}\//, ''), path)
-          end
-        end
-      end
+    def self.unique_str(dest)
+      #'.'と'..'を除く先頭
+      Dir.entries(File.join(dest, 'editors').to_s)[2]
     end
 
-    def unzip_pass
+    def self.unzip_pass
     end
 
-    def zip_pass
+    def self.zip_pass
+    end
+
+    def self.salt
     end
 end

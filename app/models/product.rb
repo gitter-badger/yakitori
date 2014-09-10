@@ -92,13 +92,13 @@ class Product < ActiveRecord::Base
       Utils.write_str(exported_file.read.force_encoding('UTF-8'), tmp_zip_path)
 
       unzipped_path = tmp.join(label).to_s
-      Utils.unzip_with_pass(tmp_zip_path, unzipped_path, Product.unzip_pass)
+      Utils.unzip_with_pass(tmp_zip_path, unzipped_path, UNZIP_PASS)
 
       edited_path = data.join(label).to_s
       edit_exported(unzipped_path, edited_path)
 
       zip_path = data.join(exported_name).to_s
-      Utils.zip_with_pass(edited_path, zip_path, Product.zip_pass)
+      Utils.zip_with_pass(edited_path, zip_path, ZIP_PASS)
     end
 
     def edit_exported(src, dest)
@@ -136,20 +136,11 @@ class Product < ActiveRecord::Base
 
     def generate_hash(unique_str)
       product_id = (free?) ? '' : label
-      Digest::SHA256.hexdigest(product_id + unique_str + Product.salt).encode('UTF-8')
+      Digest::SHA256.hexdigest(product_id + unique_str + HASH_SALT).encode('UTF-8')
     end
 
     def self.unique_str(dest)
       #'.'と'..'を除く先頭
       Dir.entries(File.join(dest, 'editors').to_s)[2]
-    end
-
-    def self.unzip_pass
-    end
-
-    def self.zip_pass
-    end
-
-    def self.salt
     end
 end

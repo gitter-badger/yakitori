@@ -18,3 +18,4 @@
 .*.swp
 .DS_Store
 vendor/bundle
+config/initializers/password.rb

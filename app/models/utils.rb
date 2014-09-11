@@ -33,7 +33,7 @@ class Utils
       arc.num_files.times do |i|
         arc.fopen(arc.get_name(i)) do |file|
           if file.directory? then
-            puts FileUtils.mkdir_p(File.join(dest_path, file.name).to_s)
+            FileUtils.mkdir_p(File.join(dest_path, file.name).to_s)
           else
             File.open(File.join(dest_path, file.name).to_s, 'w') do |f|
               f.write file.read.force_encoding('UTF-8')

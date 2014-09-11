@@ -3,6 +3,10 @@
   %h1=t '.title', :default => model_class.model_name.human.titleize
 
 %p
+  %strong= model_class.human_attribute_name(:id_label) + ':'
+  %br
+  = @genre.id_label
+%p
   %strong= model_class.human_attribute_name(:name) + ':'
   %br
   = @genre.name

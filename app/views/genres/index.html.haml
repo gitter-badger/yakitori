@@ -4,7 +4,7 @@
 %table.table.table-striped
   %thead
     %tr
-      %th= model_class.human_attribute_name(:id)
+      %th= model_class.human_attribute_name(:id_label)
       %th= model_class.human_attribute_name(:name)
       %th= model_class.human_attribute_name(:pay_label)
       %th= model_class.human_attribute_name(:free_label)
@@ -13,7 +13,7 @@
   %tbody
     - @genres.each do |genre|
       %tr
-        %td= link_to genre.id, genre_path(genre)
+        %td= link_to genre.id_label, genre_path(genre)
         %td= genre.name
         %td= genre.pay_label
         %td= genre.free_label

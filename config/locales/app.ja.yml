@@ -1,0 +1,109 @@
+ja:
+  activerecord:
+    models:
+      id: 項番
+      task: タスク
+      product: 素材
+      sale: 販売
+      price: 価格
+      sale_category: 販売カテゴリ
+      genre: 素材の種類
+
+
+    attributes:
+      genre:
+        id: 項番
+        name: 名前
+        pay_label: 最終の有料素材のID
+        free_label: 最終の無料素材のID
+        created_at: 作成日
+        update_at: 更新日
+        extension: エクスポートデータの拡張子
+        id_label: ID
+
+      price:
+        id: 項番
+        value: 価格
+        created_at: 作成日
+        update_at: 更新日
+
+      product:
+        id: 項番
+        name: 表示名
+        version: Ver.
+        thumbnail_name: 画像
+        exported_name: エクスポートデータ
+        category: 無/有料
+        created_at: 作成日
+        update_at: 更新日
+        label: ID
+        genre_id: 種類
+
+      sale_category:
+        id: 項番
+        label: ID
+        name: 表示名
+        created_at: 作成日
+        update_at: 更新日
+
+      sale_product:
+        id: 項番
+        sale_id: 販売ID
+        product_id: 素材ID
+        created_at: 作成日
+        update_at: 更新日
+
+      sale:
+        id: 項番
+        name: 表示名
+        description: 説明
+        display_order: 表示順
+        thumbnail_url: サムネURL
+        preview1_url: プレビューURL1
+        preview2_url: プレビューURL2
+        preview3_url: プレビューURL3
+        preview4_url: プレビューURL4
+        preview5_url: プレビューURL5
+        visible: 表示/非表示
+        approval_at: 予定日
+        is_new: 新着
+        area: 青/赤版
+        optimum_plan: 推奨プラン
+        task_id: タスクID
+        created_at: 作成日
+        update_at: 更新日
+        price_id: 価格
+        sale_category_id: 販売カテゴリ
+
+      task:
+        id: 項番
+        name: 名前
+        description: 説明
+        user_id: 起案者
+        app_type: 青/赤版
+        paid: 無/有料
+        release_at: リリース期限日
+        created_at: 作成日
+        update_at: 更新日
+
+      user:
+        id: 項番
+        email: メール
+        encrypted_password: パスワード
+        reset_password_token: トークン
+        reset_password_sent_at: パスワード送付先
+        remember_created_at: ？
+        sign_in_count: ログイン階数
+        current_sign_in_at: ログイン日時
+        last_sign_in_at: 最終アクセス日時
+        current_sign_in_ip: アクセス中のIP
+        last_sign_in_ip: 最終アクセスIP
+        created_at: 作成日
+        update_at: 更新日
+        username: ユーザ名
+
+  top:
+    settings: 設定
+    home: ホーム
+    logout: ログアウト
+

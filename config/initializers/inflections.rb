@@ -14,3 +14,10 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+#Rails4からはActiveSupport::Inflector.inflections(:ja) do |inflect|とかけば
+#localeごとにinflectionを変えられるらしいがうまくlocale=jaが渡ってきていないようなのでとりあえずなしで
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.plural(/^.*[^A-Za-z]$/, '\0')
+  inflect.singular(/^.*[^A-Za-z]$/, '\0')
+end

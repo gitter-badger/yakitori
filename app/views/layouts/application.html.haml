@@ -28,9 +28,9 @@
         %a.navbar-brand(href="/") Home
         .navbar-collapse.collapse.navbar-responsive-collapse
           %ul.nav.navbar-nav
-            %li= link_to "タスク", tasks_path
-            %li= link_to "素材", products_path
-            %li= link_to "販売", sales_path
+            %li= link_to Task.model_name.human.pluralize.titleize, tasks_path
+            %li= link_to Product.model_name.human.pluralize.titleize, products_path
+            %li= link_to Sale.model_name.human.pluralize.titleize, sales_path
             - if user_signed_in?
               %li= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" }
 
@@ -42,10 +42,10 @@
           = yield
         .col-lg-3
           .well.sidebar-nav
-            %h3 設定
+            %h3 settings
             %ul.nav.nav-list
-              %li= link_to "価格", prices_path
-              %li= link_to "販売カテゴリ", sale_categories_path
-              %li= link_to "テンプレート種類", genres_path
+              %li= link_to Price.model_name.human.pluralize.titleize, prices_path
+              %li= link_to SaleCategory.model_name.human.pluralize.titleize, sale_categories_path
+              %li= link_to Genre.model_name.human.pluralize.titleize, genres_path
       %footer
         %p &copy; Company 2014

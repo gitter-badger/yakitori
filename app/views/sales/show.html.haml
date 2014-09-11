@@ -11,14 +11,6 @@
   %br
   = @sale.description
 %p
-  %strong= model_class.human_attribute_name(:price) + ':'
-  %br
-  = @sale.price
-%p
-  %strong= model_class.human_attribute_name(:genre_id) + ':'
-  %br
-  = @sale.genre_id
-%p
   %strong= model_class.human_attribute_name(:display_order) + ':'
   %br
   = @sale.display_order
@@ -70,6 +62,14 @@
   %strong= model_class.human_attribute_name(:task_id) + ':'
   %br
   = @sale.task_id
+%p
+  %strong= model_class.human_attribute_name(:price_id) + ':'
+  %br
+  = @sale.price_id
+%p
+  %strong= model_class.human_attribute_name(:sale_category_id) + ':'
+  %br
+  = @sale.sale_category_id
 
 
 = link_to t('.back', :default => t("helpers.links.back")), sales_path, :class => 'btn btn-default'

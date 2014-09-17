@@ -10,17 +10,13 @@
     .controls
       = f.text_field :name, :class => 'form-control'
   .form-group
-    = f.label :description, :class => 'control-label'
-    .controls
-      = f.text_field :description, :class => 'form-control'
-  .form-group
     = f.label :price_id, :class => 'control-label'
     .controls
-      = f.text_field :price_id, :class => 'form-control'
+      = f.select :price_id, @sale.price_choices, :class => 'form-control'
   .form-group
     = f.label :sale_category_id, :class => 'control-label'
     .controls
-      = f.text_field :sale_category_id, :class => 'form-control'
+      = f.select :sale_category_id, @sale.sale_category_choices, :class => 'form-control'
   .form-group
     = f.label :display_order, :class => 'control-label'
     .controls
@@ -28,50 +24,30 @@
   .form-group
     = f.label :thumbnail_url, :class => 'control-label'
     .controls
-      = f.text_field :thumbnail_url, :class => 'form-control'
+      = f.file_field :thumbnail_url, :accept => 'image/*', :class => 'form-control'
   .form-group
     = f.label :preview1_url, :class => 'control-label'
     .controls
-      = f.text_field :preview1_url, :class => 'form-control'
+      = f.file_field :preview1_url, :accept => 'image/*', :class => 'form-control'
   .form-group
     = f.label :preview2_url, :class => 'control-label'
     .controls
-      = f.text_field :preview2_url, :class => 'form-control'
+      = f.file_field :preview2_url, :accept => 'image/*', :class => 'form-control'
   .form-group
     = f.label :preview3_url, :class => 'control-label'
     .controls
-      = f.text_field :preview3_url, :class => 'form-control'
+      = f.file_field :preview3_url, :accept => 'image/*', :class => 'form-control'
   .form-group
     = f.label :preview4_url, :class => 'control-label'
     .controls
-      = f.text_field :preview4_url, :class => 'form-control'
+      = f.file_field :preview4_url, :accept => 'image/*', :class => 'form-control'
   .form-group
     = f.label :preview5_url, :class => 'control-label'
     .controls
-      = f.text_field :preview5_url, :class => 'form-control'
-  .form-group
-    = f.label :visible, :class => 'control-label'
-    .controls
-      = f.text_field :visible, :class => 'form-control'
-  .form-group
-    = f.label :approval_at, :class => 'control-label'
-    .controls
-      = f.text_field :approval_at, :class => 'form-control'
+      = f.file_field :preview5_url, :accept => 'image/*', :class => 'form-control'
   .form-group
     = f.label :is_new, :class => 'control-label'
     .controls
-      = f.text_field :is_new, :class => 'form-control'
-  .form-group
-    = f.label :area, :class => 'control-label'
-    .controls
-      = f.text_field :area, :class => 'form-control'
-  .form-group
-    = f.label :optimum_plan, :class => 'control-label'
-    .controls
-      = f.text_field :optimum_plan, :class => 'form-control'
-  .form-group
-    = f.label :task_id, :class => 'control-label'
-    .controls
-      = f.text_field :task_id, :class => 'form-control'
+      = f.select :is_new, @sale.is_new_choices, :class => 'form-control'
   = f.submit nil, :class => 'btn btn-primary'
   = link_to t('.cancel', :default => t("helpers.links.cancel")), sales_path, :class => 'btn btn-default'

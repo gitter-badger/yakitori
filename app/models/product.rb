@@ -8,22 +8,10 @@ class Product < ActiveRecord::Base
   attr_accessor :thumbnail_file, :exported_file
   
   validates :name, :genre_id,:category, :thumbnail_file, :exported_file,  presence: true
-  validates :name, uniqueness: true
-  validates :genre_id, numericality: true
-  validate :thumbnail_file_format_check
-  validate :exported_file_format_check
-
-  def thumbnail_file_format_check
-    if (thumbnail_file && thumbnail_file.original_filename !~ %r{\.(bmp|gif|jpg|jpeg|png)\z}i)
-      errors.add(:thumbnail_file)
-    end
-  end
-
-  def exported_file_format_check
-    if (exported_file && exported_file.original_filename !~ %r{\.(sklp|skbn)\z}i)
-    errors.add(:exported_file)
-    end
-  end
+  validates :name, allow_blank: true, uniqueness: true
+  validates :genre_id, allow_blank: true, numericality: true
+  validates :thumbnail_file, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
+  validates :exported_file, allow_blank: true, extension: {:white_list => %w(sklp skbn)}
 
   CATEGORIES = {
     '0' => '無料',

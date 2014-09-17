@@ -1,4 +1,5 @@
 class Utils
+
   def self.write_file(src_path, dest_path)
     File.open(dest, 'w'){|f|
       f.write()

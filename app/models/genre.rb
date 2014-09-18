@@ -43,7 +43,7 @@ class Genre < ActiveRecord::Base
     def self.edit_tag(src)
       src_path = File.join(src, 'lp.xml').to_s
       str = Utils.read_str(src_path)
-        .gsub(/<page_title>.*?<\/page_title>/, '<page_title>新規ページ<\/page_title>')
+        .gsub(/<page_title>.*?<\/page_title>/, '<page_title>新規ページ</page_title>')
         .gsub(/<FlgOutputCagNewPage>.*?<\/OutputDir>/, '')
       Utils.write_str(str, src_path)
     end

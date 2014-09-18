@@ -22,12 +22,13 @@ class Utils
     FileUtils.remove([dest_path], {:force => true})
     Zip::Archive.open(dest_path, Zip::CREATE) do |ar|
       Dir.glob(src_path + '/**/*').each do |path|
-        unless File.directory?(path)
-          #add_file(<entry name>, <source path>)
-          ar.add_file(path.gsub(/#{src_path}\//, ''), path)
+        unless File.directory?(path) then
+          entry = path.gsub(/#{src_path}\//, "#{src_path.split('/').pop()}/")
+          ar.add_file(entry, path)
         end
       end
     end
+
   end
 
   def self.zip_with_pass(src_path, dest_path, pass)

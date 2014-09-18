@@ -103,7 +103,7 @@ class Product < ActiveRecord::Base
       id.add_text((free?) ? '' : label)
 
       genre = REXML::Element.new('genre')
-      genre.add_text(genre_id.to_s)
+      genre.add_text(Genre.where(id: genre_id).pluck(:id_label).first.to_s)
 
       hash = REXML::Element.new('hash')
       hash.add_text(hash_str)
@@ -124,11 +124,12 @@ class Product < ActiveRecord::Base
 
     def generate_hash(unique_str)
       product_id = (free?) ? '' : label
-      Digest::SHA256.hexdigest(product_id + unique_str + HASH_SALT).encode('UTF-8')
+      Digest::SHA256.hexdigest(product_id + '@' + unique_str + '@' + HASH_SALT).encode('UTF-8')
     end
 
     def self.unique_str(dest)
       #'.'と'..'を除く先頭
+      puts Dir.entries(File.join(dest, 'editors').to_s)[2]
       Dir.entries(File.join(dest, 'editors').to_s)[2]
     end
 end

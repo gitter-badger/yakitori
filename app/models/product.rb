@@ -49,10 +49,10 @@ class Product < ActiveRecord::Base
     def count_up(label)
       if free?
         counter = label[2, 4].to_i(10)
-        'F' + genre_id.to_s + format('%04d', counter + 1)
+        'F' + label[1, 1] + format('%04d', counter + 1)
       else
         counter = label[1, 3].hex
-        genre_id.to_s + format('%03x', counter + 1)
+        label[0, 1] + format('%03x', counter + 1)
       end
     end
 

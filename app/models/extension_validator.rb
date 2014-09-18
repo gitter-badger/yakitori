@@ -6,6 +6,7 @@ class ExtensionValidator < ActiveModel::EachValidator
       seed << '|' unless ext == options[:white_list].last
     end
 
+    #正規表現のエスケープに関して参考 => http://neareal.net/index.php?Programming%2FRuby%2FDifference%20between%20Regexp.new%20and%20slash%20pattern
     if options[:white_list].length == 0 || value.original_filename !~ Regexp.new("\\.(#{seed})\\z", Regexp::IGNORECASE)
       record.errors[attribute] << (options[:message] || 'の拡張子が不正です。')
     end

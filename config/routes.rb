@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'tool/upload'
+  post 'tool/zip'
+  get 'tool/download'
+
   resources :genres
 
   resources :sale_categories

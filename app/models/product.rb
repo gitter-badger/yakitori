@@ -129,7 +129,6 @@ class Product < ActiveRecord::Base
 
     def self.unique_str(dest)
       #'.'と'..'を除く先頭
-      puts Dir.entries(File.join(dest, 'editors').to_s)[2]
       Dir.entries(File.join(dest, 'editors').to_s)[2]
     end
 end

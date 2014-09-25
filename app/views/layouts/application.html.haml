@@ -47,5 +47,8 @@
               %li= link_to Price.model_name.human.pluralize.titleize, prices_path
               %li= link_to SaleCategory.model_name.human.pluralize.titleize, sale_categories_path
               %li= link_to Genre.model_name.human.pluralize.titleize, genres_path
+            %h4= t('top.tools')
+            %ul.nav.nav-list
+              %li= link_to t('tool_action.zip'), tool_upload_path
       %footer
         %p &copy; Company 2014

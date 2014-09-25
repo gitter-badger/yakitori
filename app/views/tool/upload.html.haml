@@ -1,0 +1,22 @@
+.page-header
+  %h1=t 'tool_action.zip'
+  = form_for @tool, url: tool_zip_path do |f|
+    - if @tool.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@tool.errors.count, 'error')} prohibited this product from being saved:"
+        %ul
+          - @tool.errors.full_messages.each do |msg|
+            %li= msg
+    .form-group
+      = f.label :zip_name, :class => 'control-label'
+      .controls
+        = f.text_field :zip_name, :class => 'form-control'
+    .form-group
+      = f.label :pass, :class => 'control-label'
+      .controls
+        = f.text_field :pass, :class => 'form-control'
+    .form-group
+      = f.label :dir, :class => 'control-label'
+      .controls
+        = f.file_field :dir, :class => 'form-control'
+    = f.submit t 'tool_action.zip', :class => 'btn btn-primary'

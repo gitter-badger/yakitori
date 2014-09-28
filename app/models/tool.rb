@@ -12,7 +12,7 @@ class Tool
     Utils.file_field_save(dir, dest)
 
     src = dest
-    dest = Rails.root.join('var', 'tmp', 'zipped', zip_name + '.zip').to_s.force_encoding('UTF-8')
+    dest = Rails.root.join('var', 'data', zip_name + '.zip').to_s.force_encoding('UTF-8')
     Utils.zip_to_zip(edit_exported).call(src, dest, nil, pass)
     return dest
   end
@@ -31,7 +31,7 @@ class Tool
           if File.basename(path)[0,1] != '__'
             Utils.copy(path, path.gsub(/#{src}\/.+?(\z|\/)/, dest + $1.to_s))
           end
-        end
+        END
       end
     end
 end

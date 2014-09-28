@@ -11,7 +11,7 @@ class Product < ActiveRecord::Base
   validates :name, allow_blank: true, uniqueness: true
   validates :genre_id, allow_blank: true, numericality: true
   validates :thumbnail_file, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
-  validates :exported_file, allow_blank: true, extension: {:white_list => %w(sklp skbn)}
+  validates :exported_file, allow_blank: true, extension: {:white_list => %w(sklp skbn zip)}
 
   CATEGORIES = {
     '0' => '無料',
@@ -73,29 +73,23 @@ class Product < ActiveRecord::Base
     end
 
     def save_exported_as_zip
-      tmp = Rails.root.join('var', 'tmp')
-      data = Rails.root.join('var', 'data')
+      dest = Rails.root.join('var', 'tmp', 'exported', label + '.zip').to_s
+      Utils.file_field_save(exported_file, dest)
 
-      tmp_zip_path = tmp.join(exported_name).to_s
-      Utils.write_str(exported_file.read.force_encoding('UTF-8'), tmp_zip_path)
-
-      unzipped_path = tmp.join(label).to_s
-      Utils.unzip_with_pass(tmp_zip_path, unzipped_path, UNZIP_PASS)
-
-      edited_path = data.join(label).to_s
-      edit_exported(unzipped_path, edited_path)
-
-      zip_path = data.join(exported_name).to_s
-      Utils.zip_with_pass(edited_path, zip_path, ZIP_PASS)
+      src = dest
+      dest = Rails.root.join('var', 'data', label + '.zip').to_s
+      Utils.zip_to_zip(edit_exported).call(src, dest, UNZIP_PASS,ZIP_PASS)
     end
 
-    def edit_exported(src, dest)
-      xml = create_meta_xml(generate_hash(Product.unique_str(src)))
-      Utils.write_str(xml.to_s, File.join(src, 'meta.xml'))
+    def edit_exported
+      Proc.new do |src, dest|
+        xml = create_meta_xml(generate_hash(genre.unique_str(src)))
+        Utils.write_str(xml.to_s, File.join(src, 'meta.xml'))
 
-      genre.edit(src)
+        genre.edit(src)
 
-      genre.pickup(src, dest)
+        genre.pickup(src, dest)
+      end
     end
 
     def create_meta_xml(hash_str)
@@ -125,10 +119,5 @@ class Product < ActiveRecord::Base
     def generate_hash(unique_str)
       product_id = (free?) ? '' : label
       Digest::SHA256.hexdigest(product_id + '@' + unique_str + '@' + HASH_SALT).encode('UTF-8')
-    end
-
-    def self.unique_str(dest)
-      #'.'と'..'を除く先頭
-      Dir.entries(File.join(dest, 'editors').to_s)[2]
     end
 end

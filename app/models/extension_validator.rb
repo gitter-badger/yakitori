@@ -1,3 +1,7 @@
+#Custom MethodによるValidationの共通化も考えたが、
+#その場合、Model内でシンボルでValudate Methodを指定しないといけないため
+#Model内にMethodを個別に持たせないといけないため共通化は難しい。
+
 class ExtensionValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     seed = ''

@@ -1,0 +1,3 @@
+= form_for @sale_product, :html => { :class => 'form-horizontal' } do |f|
+  = f.submit nil, :class => 'btn btn-primary'
+  = link_to t('.cancel', :default => t("helpers.links.cancel")), sale_products_path, :class => 'btn btn-default'

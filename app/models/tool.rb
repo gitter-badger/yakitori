@@ -31,7 +31,7 @@ class Tool
           if File.basename(path)[0,1] != '__'
             Utils.copy(path, path.gsub(/#{src}\/.+?(\z|\/)/, dest + $1.to_s))
           end
-        END
+        end
       end
     end
 end

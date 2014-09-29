@@ -118,6 +118,8 @@ class Product < ActiveRecord::Base
 
     def generate_hash(unique_str)
       product_id = (free?) ? '' : label
+      puts '*********create hash'
+      puts "#{product_id} + '@' + #{unique_str} + '@' + #{HASH_SALT}"
       Digest::SHA256.hexdigest(product_id + '@' + unique_str + '@' + HASH_SALT).encode('UTF-8')
     end
 end

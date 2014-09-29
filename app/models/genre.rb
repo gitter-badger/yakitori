@@ -19,13 +19,14 @@ class Genre < ActiveRecord::Base
       when KANBAN_ID_LABEL then
         required_files = %w(editors image setting.xml meta.xml)
       when SHOP_ID_LABEL then
-        required_files = %w(category_title.gif parent_category.gif child_category.gif ranking_title.gif rank1.gif
+        required_files = %w(calendar_title.gif category_title.gif parent_category.gif child_category.gif ranking_title.gif rank1.gif
                           rank2.gif rank3.gif rank4.gif rank5.gif rank_up.gif rank_down.gif rank_stay.gif footer_title840.gif
                           footer_point.gif template.xml preview.png meta.xml)
+
       when SMPTOP_ID_LABEL then
-        required_files = %w(kanban/image/output.jpg kanban/image/thumb.jpg title_image/ranking/image/output.jpg
-                          title_image/ranking/image/thumb.jpg title_image/newarrival/image/output.jpg
-                          title_image/newarrival/image/thumb.jpg template.xml meta.xml)
+        required_files = %w(kanban/editors kanban/image/output.jpg kanban/image/thumb.jpg title_image/ranking/image/output.jpg
+                          title_image/ranking/editors title_image/ranking/image/thumb.jpg title_image/newarrival/editors
+                          title_image/newarrival/image/output.jpg title_image/newarrival/image/thumb.jpg template.xml meta.xml)
       else
         raise 'caught unknown genre name. please branch off elsif statement.'
     end
@@ -46,10 +47,12 @@ class Genre < ActiveRecord::Base
 
   def unique_str(dest)
     case id_label
-      when LP_ID_LABEL, BANNER_ID_LABEL, KANBAN_ID_LABEL
+      when LP_ID_LABEL, BANNER_ID_LABEL
         Genre.fist_filename(File.join(dest, 'editors').to_s)
+      when KANBAN_ID_LABEL
+        Genre.two_or_more_filename(File.join(dest, 'editors').to_s)
       when SHOP_ID_LABEL
-        Genre.join_tag_contents(src)
+        Genre.join_tag_contents(File.join(dest, 'template.xml').to_s)
       when SMPTOP_ID_LABEL
         Genre.fist_filename(File.join(dest, 'kanban/editors').to_s)
       else
@@ -60,9 +63,16 @@ class Genre < ActiveRecord::Base
   private
 
     def self.move_files(src, dest, files)
-      FileUtils.remove(dest, {:force => true})
+      `rm -rf #{File.join(dest, '*').to_s}`
       files.each do |f_name|
-        Utils.copy(File.join(src, f_name).to_s, File.join(dest, f_name).to_s)
+        src_path = File.join(src, f_name).to_s
+        `cp -r #{src_path} #{File.join(dest, f_name).to_s}` if File.directory?(src_path)
+
+        if File.file?(src_path)
+          `mkdir -p #{File.join(dest, File.dirname(f_name))}`
+          puts "mkdir -p #{File.join(dest, File.dirname(f_name))}"
+          `cp #{src_path} #{File.join(dest, f_name).to_s}`
+        end
       end
     end
 
@@ -75,15 +85,22 @@ class Genre < ActiveRecord::Base
     end
 
     def self.join_tag_contents(src)
-      doc = REXML::Document.new(open(File.join(src, 'template.xml')))
-      doc.elements['root/style/product_detail/title_background_color'].text +
-        doc.elements['root/style/product_detail/title_font_color'].text +
-        doc.elements['root/style/product_detail/statement_background_color'].text +
-        doc.elements['root/style/product_detail/statement_font_color'].text
+      doc = REXML::Document.new(open(src))
+      doc.elements['style/product_detail/title_background_color'].text +
+        doc.elements['style/product_detail/title_font_color'].text +
+        doc.elements['style/product_detail/statement_background_color'].text +
+        doc.elements['style/product_detail/statement_font_color'].text
     end
 
     def self.fist_filename(path)
       #'.'と'..'を除く先頭
       Dir.entries(path)[2]
+    end
+
+    def self.two_or_more_filename(path)
+      #'.'と'..'を除く先頭
+      Dir.entries(path).each_with_index do |name, i|
+        return name if i > 1 && name.to_s.length > 1
+      end
     end
 end

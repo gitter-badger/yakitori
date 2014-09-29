@@ -51,12 +51,9 @@ class Utils
       unzipped_path = Rails.root.join('var', 'tmp', 'unzip').to_s
       Utils.unzip(src, unzipped_path, unzip_pass)
 
-
-      unless File.exist?(File.join(unzipped_path, 'editors'))
-        puts '%%%%%%%%%%%%%%%'
-        puts "cd #{dest}"
-        puts "cd Dir.entries(dest)[2]"
-        puts "mv * ../"
+      if Dir.entries(unzipped_path).length == 3
+        too_many_dir = Dir.entries(unzipped_path)[2]
+        `mv -f #{File.join(unzipped_path, too_many_dir, '*').to_s} #{unzipped_path}`
       end
 
 

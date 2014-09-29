@@ -6,15 +6,17 @@ class Sale < ActiveRecord::Base
   belongs_to :sale_category
   before_create :set_default_value
 
-  validates :name, :price_id,:sale_category_id, :display_order, :thumbnail_url, :preview1_url, :is_new, presence: true
+  attr_accessor :thumbnail_file, :preview1_file, :preview2_file, :preview3_file, :preview4_file, :preview5_file
+
+  validates :name, :price_id,:sale_category_id, :display_order, :thumbnail_file, :preview1_file, :is_new, presence: true
   validates :name, allow_blank: true, uniqueness: true
   validates :price_id, :sale_category_id, :display_order, allow_blank: true, numericality: true
-  validates :thumbnail_url, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
-  validates :preview1_url, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
-  validates :preview2_url, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
-  validates :preview3_url, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
-  validates :preview4_url, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
-  validates :preview5_url, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
+  validates :thumbnail_file, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
+  validates :preview1_file, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
+  validates :preview2_file, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
+  validates :preview3_file, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
+  validates :preview4_file, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
+  validates :preview5_file, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}
 
   SALE_AREA_RED = 0
   SALE_AREA_BLUE = 1

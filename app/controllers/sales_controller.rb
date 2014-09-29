@@ -69,6 +69,6 @@ class SalesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sale_params
-      params.require(:sale).permit(:name, :price_id, :sale_category_id, :display_order, :thumbnail_url, :preview1_url, :preview2_url, :preview3_url, :preview4_url, :preview5_url, :is_new)
+      params.require(:sale).permit(:name, :price_id, :sale_category_id, :display_order, :thumbnail_file, :preview1_file, :preview2_file, :preview3_file, :preview4_file, :preview5_file, :is_new)
     end
 end

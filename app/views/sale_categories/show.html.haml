@@ -10,6 +10,10 @@
   %strong= model_class.human_attribute_name(:label) + ':'
   %br
   = @sale_category.label
+%p
+  %strong= model_class.human_attribute_name(:last_id) + ':'
+  %br
+  = @sale_category.last_id
 
 
 = link_to t('.back', :default => t("helpers.links.back")), sale_categories_path, :class => 'btn btn-default'

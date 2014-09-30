@@ -43,18 +43,37 @@ class Sale < ActiveRecord::Base
 
   def release
     "INSERT INTO mtb_sale VALUES
-      ('#{}', '#{name}', NULL, #{Price.find(price_id).value}, '#{SaleCategory.find(sale_category_id).label}',
+      ('#{label_id}', '#{name}', NULL, #{Price.find(price_id).value}, '#{SaleCategory.find(sale_category_id).label}',
       #{display_order}, #{thumbnail_url}, #{form(preview1_url)}, #{form(preview2_url)}, #{form(preview3_url)},
       #{form(preview4_url)}, #{form(preview5_url)}, 'true', 'true', '#{is_new.to_s}', '0', '2');"
   end
 
   private
 
+    def next_label
+      count_up current_label
+    end
+
+    def count_up(label)
+      counter = label[-5, 5].to_i(10)
+      SaleCategory.find(sale_category_id).label + format('%05d', counter + 1)
+    end
+
+    def current_label
+      first = Sale.where(sale_category_id: sale_category_id).order('label_id DESC').first
+      if first
+        first.label_id
+      else
+        SaleCategory.where(id: sale_category_id).pluck(:last_id).first
+      end
+    end
+
     def set_default_value
+      self.label_id = next_label
       self.description ||= nil
       self.visible ||= true
       self.area ||= SALE_AREA_RED
-      self.optimum_plan ||= STANDARD_PLAN_RED
+      self.optimum_plan ||= PREMIUM_PLAN_RED
       self.task_id = nil
     end
 

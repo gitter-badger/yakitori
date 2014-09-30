@@ -6,24 +6,20 @@
     %tr
       %th= model_class.human_attribute_name(:id)
       %th= model_class.human_attribute_name(:name)
+      %th= model_class.human_attribute_name(:label_id)
       %th= model_class.human_attribute_name(:price_id)
       %th= model_class.human_attribute_name(:sale_category_id)
       %th= model_class.human_attribute_name(:display_order)
-      %th= model_class.human_attribute_name(:thumbnail_url)
-      %th= model_class.human_attribute_name(:is_new)
-      %th= model_class.human_attribute_name(:optimum_plan)
       %th=t '.actions', :default => t("helpers.actions")
   %tbody
     - @sales.each do |sale|
       %tr
         %td= link_to sale.id, sale_path(sale)
         %td= sale.name
+        %td= sale.label_id
         %td= sale.price.value
         %td= sale.sale_category.name
         %td= sale.display_order
-        %td= image_tag sale.thumbnail_url
-        %td= sale.is_new
-        %td= sale.optimum_plan
         %td
           = link_to t('.link', :default => t("helpers.links.link")), link_sale_path(sale), :class => 'btn btn-success btn-xs'
           = link_to t('.edit', :default => t("helpers.links.edit")), edit_sale_path(sale), :class => 'btn btn-default btn-xs'

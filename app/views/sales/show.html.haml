@@ -7,6 +7,10 @@
   %br
   = @sale.name
 %p
+  %strong= model_class.human_attribute_name(:label_id) + ':'
+  %br
+  = @sale.label_id
+%p
   %strong= model_class.human_attribute_name(:description) + ':'
   %br
   = @sale.description

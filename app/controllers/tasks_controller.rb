@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :release]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :release, :link, :update_sale]
 
   # GET /tasks
   # GET /tasks.json
@@ -23,6 +23,23 @@ class TasksController < ApplicationController
 
   def release
     @sql = @task.release
+  end
+
+  def link
+  end
+
+  def update_sale
+    #TODO nakao params[:task][:sale_id]のvalidation check
+    respond_to do |format|
+      sale = Sale.find(params[:task][:sale_id])
+      if sale.update_attributes(:task_id => @task.id)
+        format.html { render :linked, notice: 'Task_id was successfully updated.' }
+        format.json { render :show, status: :ok, location: @task }
+      else
+        format.html { render :edit }
+        format.json { render json: @task.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /tasks

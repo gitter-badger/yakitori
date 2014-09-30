@@ -1,0 +1,14 @@
+.page-header
+  %h1 販売に紐付けられた素材名
+
+%p
+  %strong= '販売名'
+  %br
+  = @sale.name
+
+- SaleProduct.where(:sale_id => @sale.id).each_with_index do |sale_product, i|
+  %p
+    %strong= "紐付けられた素材名 #{i+1}"
+    %br
+    = Product.find(sale_product.product_id).name
+= link_to t('.back', :default => t("helpers.links.back")), sales_path, :class => 'btn btn-default'

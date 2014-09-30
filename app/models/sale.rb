@@ -6,7 +6,7 @@ class Sale < ActiveRecord::Base
   belongs_to :sale_category
   before_create :set_default_value
 
-  attr_accessor :thumbnail_file, :preview1_file, :preview2_file, :preview3_file, :preview4_file, :preview5_file
+  attr_accessor :thumbnail_file, :preview1_file, :preview2_file, :preview3_file, :preview4_file, :preview5_file, :product_id
 
   validates :name, :price_id,:sale_category_id, :display_order, :is_new, presence: true
   validates :thumbnail_file, :preview1_file, presence: true, on: :create

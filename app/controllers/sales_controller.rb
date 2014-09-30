@@ -1,5 +1,5 @@
 class SalesController < ApplicationController
-  before_action :set_sale, only: [:show, :edit, :update, :destroy, :link, :update_task_id]
+  before_action :set_sale, only: [:show, :edit, :update, :destroy, :link, :update_product]
 
   # GET /sales
   # GET /sales.json
@@ -24,10 +24,12 @@ class SalesController < ApplicationController
   def link
   end
 
-  def update_task_id
+  def update_product
+    #TODO nakao params[:sale][:product_id]のvalidation check
+    sale_product = SaleProduct.new({:sale_id => @sale.id, :product_id => params[:sale][:product_id]})
     respond_to do |format|
-      if @sale.update_attributes(:task_id => params[:sale][:task_id])
-        format.html { redirect_to @sale, notice: 'Task_id was successfully updated.' }
+      if sale_product.save
+        format.html { render :linked, notice: 'Task_id was successfully updated.' }
         format.json { render :show, status: :ok, location: @sale }
       else
         format.html { render :edit }

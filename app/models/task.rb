@@ -2,6 +2,8 @@ class Task < ActiveRecord::Base
   belongs_to :user
   has_many :sales
 
+  attr_accessor :sale_id
+
   def release
     product_sql = '<<<product>>>\n'
     package_sql = '<<<package>>>\n'

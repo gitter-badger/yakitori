@@ -8,7 +8,8 @@ ja:
       destroy: "削除"
       new: "新規"
       edit: "編集"
-      link: "紐付け"
+      link_sale: "販売紐付け"
+      link_product: "素材紐付け"
       release: "リリース"
     titles:
       edit: "編集 %{model}"

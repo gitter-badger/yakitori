@@ -12,14 +12,16 @@ Rails.application.routes.draw do
   resources :sale_products
 
   get 'sales/:id/link' => 'sales#link', :as => 'link_sale'
-  patch'sales/:id/update_task_id' => 'sales#update_task_id', :as => 'update_task_id'
+  patch'sales/:id/update_product' => 'sales#update_product', :as => 'update_product'
   resources :sales
 
   resources :products
 
   devise_for :users
 
-  get'tasks/:id/release' => 'tasks#release', :as => 'release_task'
+  get 'tasks/:id/link' => 'tasks#link', :as => 'link_to_sale'
+  patch 'tasks/:id/update_sale' => 'tasks#update_sale', :as => 'link_to_update_sale'
+  get 'tasks/:id/release' => 'tasks#release', :as => 'release_task'
   resources :tasks
 
   # The priority is based upon order of creation: first created -> highest priority.

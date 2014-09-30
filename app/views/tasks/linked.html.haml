@@ -1,0 +1,14 @@
+.page-header
+  %h1 タスクに紐付けられた販売名
+
+%p
+  %strong= 'タスク名'
+  %br
+  = @task.name
+
+- Sale.where(:task_id => @task.id).each_with_index do |sale, i|
+  %p
+    %strong= "紐付けられた販売名 #{i+1}"
+    %br
+    = sale.name
+= link_to t('.back', :default => t("helpers.links.back")), tasks_path, :class => 'btn btn-default'

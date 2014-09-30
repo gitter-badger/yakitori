@@ -1,3 +1,17 @@
 = form_for @sale_product, :html => { :class => 'form-horizontal' } do |f|
+  - if @sale_product.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@sale_product.errors.count, 'error')} prohibited this product from being saved:"
+      %ul
+        - @sale_product.errors.full_messages.each do |msg|
+          %li= msg
+  .form-group
+    = f.label :sale_id, :class => 'control-label'
+    .controls
+      = f.select :sale_id, Sale.pluck(:name, :id), :class => 'form-control'
+  .form-group
+    = f.label :product_id, :class => 'control-label'
+    .controls
+      = f.select :product_id, Product.pluck(:name, :id), :class => 'form-control'
   = f.submit nil, :class => 'btn btn-primary'
   = link_to t('.cancel', :default => t("helpers.links.cancel")), sale_products_path, :class => 'btn btn-default'

@@ -8,6 +8,7 @@ ja:
       price: 価格
       sale_category: 販売カテゴリ
       genre: 素材の種類
+      sale_product: 販売内容
 
     attributes:
       genre:
@@ -51,6 +52,8 @@ ja:
         product_id: 素材ID
         created_at: 作成日
         update_at: 更新日
+        sale_name: 販売名
+        product_name: 素材名
 
       sale:
         id: 項番

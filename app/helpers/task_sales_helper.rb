@@ -1,0 +1,2 @@
+module TaskSalesHelper
+end

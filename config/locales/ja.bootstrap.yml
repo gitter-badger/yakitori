@@ -8,8 +8,10 @@ ja:
       destroy: "削除"
       new: "新規"
       edit: "編集"
+      link: "紐付け"
     titles:
       edit: "編集 %{model}"
       save: "保存 %{model}"
       new: "新規 %{model}"
       delete: "削除 %{model}"
+      link: "紐付け %{model}"

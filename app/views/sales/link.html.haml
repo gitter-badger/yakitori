@@ -1,0 +1,17 @@
+- model_class = Sale
+.page-header
+  %h1=t '.title', :default => [:'helpers.titles.link', 'Link %{model}'], :model => model_class.model_name.human.titleize
+= form_for @sale, :html => { :class => 'form-horizontal' }, :url => { :action => 'update_task_id'} do |f|
+  - if @sale.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@sale.errors.count, 'error')} prohibited this product from being saved:"
+      %ul
+        - @sale.errors.full_messages.each do |msg|
+          %li= msg
+  = f.label "#{@sale.name} に対して紐付けするタスクを選択"
+  .form-group
+    = f.label :task_id, :class => 'control-label'
+    .controls
+      = f.select :task_id, Task.pluck(:name, :id), :class => 'form-control'
+  = f.submit t("helpers.links.link"), :class => 'btn btn-primary'
+  = link_to t('.cancel', :default => t("helpers.links.cancel")), sales_path, :class => 'btn btn-default'

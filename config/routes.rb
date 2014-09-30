@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   resources :sale_products
 
+  get 'sales/:id/link' => 'sales#link', :as => 'link_sale'
+  patch'sales/:id/update_task_id' => 'sales#update_task_id', :as => 'update_task_id'
   resources :sales
 
   resources :products

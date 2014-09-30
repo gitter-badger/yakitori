@@ -1,5 +1,5 @@
 class SalesController < ApplicationController
-  before_action :set_sale, only: [:show, :edit, :update, :destroy]
+  before_action :set_sale, only: [:show, :edit, :update, :destroy, :link, :update_task_id]
 
   # GET /sales
   # GET /sales.json
@@ -19,6 +19,21 @@ class SalesController < ApplicationController
 
   # GET /sales/1/edit
   def edit
+  end
+
+  def link
+  end
+
+  def update_task_id
+    respond_to do |format|
+      if @sale.update_attributes(:task_id => params[:sale][:task_id])
+        format.html { redirect_to @sale, notice: 'Task_id was successfully updated.' }
+        format.json { render :show, status: :ok, location: @sale }
+      else
+        format.html { render :edit }
+        format.json { render json: @sale.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # POST /sales

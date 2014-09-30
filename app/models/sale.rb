@@ -8,7 +8,8 @@ class Sale < ActiveRecord::Base
 
   attr_accessor :thumbnail_file, :preview1_file, :preview2_file, :preview3_file, :preview4_file, :preview5_file
 
-  validates :name, :price_id,:sale_category_id, :display_order, :thumbnail_file, :preview1_file, :is_new, presence: true
+  validates :name, :price_id,:sale_category_id, :display_order, :is_new, presence: true
+  validates :thumbnail_file, :preview1_file, presence: true, on: :create
   validates :name, allow_blank: true, uniqueness: true
   validates :price_id, :sale_category_id, :display_order, allow_blank: true, numericality: true
   validates :thumbnail_file, allow_blank: true, extension: {:white_list => %w(bmp gif jpg jpeg png)}

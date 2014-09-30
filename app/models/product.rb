@@ -34,6 +34,11 @@ class Product < ActiveRecord::Base
     count_up current_label
   end
 
+  def release
+    "INSERT INTO mtb_product VALUES (
+      '#{label}', '#{name}', '#{version}', '#{genre_id}', '#{thumbnail_name}', '#{exported_name}', '#{category}');"
+  end
+
   private
 
     def current_label

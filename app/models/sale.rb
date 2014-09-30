@@ -41,6 +41,13 @@ class Sale < ActiveRecord::Base
      ['新着フラグをださない', false]]
   end
 
+  def release
+    "INSERT INTO mtb_sale VALUES
+      ('#{}', '#{name}', NULL, #{Price.find(price_id).value}, '#{SaleCategory.find(sale_category_id).label}',
+      #{display_order}, #{thumbnail_url}, #{form(preview1_url)}, #{form(preview2_url)}, #{form(preview3_url)},
+      #{form(preview4_url)}, #{form(preview5_url)}, 'true', 'true', '#{is_new.to_s}', '0', '2');"
+  end
+
   private
 
     def set_default_value
@@ -49,5 +56,13 @@ class Sale < ActiveRecord::Base
       self.area ||= SALE_AREA_RED
       self.optimum_plan ||= STANDARD_PLAN_RED
       self.task_id = nil
+    end
+
+    def form(value)
+      if value == nil || value == ''
+        'NULL'
+      else
+        "'#{value}'"
+      end
     end
 end

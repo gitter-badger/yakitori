@@ -16,11 +16,11 @@
   .form-group
     = f.label :app_type, :class => 'control-label'
     .controls
-      = f.text_field :app_type, :class => 'form-control'
+      = f.select :app_type, @task.app_type_choices, :class => 'form-control'
   .form-group
     = f.label :paid, :class => 'control-label'
     .controls
-      = f.text_field :paid, :class => 'form-control'
+      = f.select :paid, @task.paid_choices, :class => 'form-control'
   .form-group
     = f.label :release_at, :class => 'control-label'
     .controls

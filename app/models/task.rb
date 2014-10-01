@@ -4,6 +4,20 @@ class Task < ActiveRecord::Base
 
   attr_accessor :sale_id
 
+  def app_type_choices
+    [
+      ['赤', 0],
+      ['青', 1]
+    ]
+  end
+
+  def paid_choices
+    [
+      ['無料', 0],
+      ['有料', 1]
+    ]
+  end
+
   def release
     product_sql = '<<<product>>>\n'
     package_sql = '<<<package>>>\n'

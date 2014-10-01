@@ -35,8 +35,8 @@ class Product < ActiveRecord::Base
   end
 
   def release
-    "INSERT INTO mtb_product VALUES (
-      '#{label}', '#{name}', '#{version}', '#{genre_id}', '#{thumbnail_name}', '#{exported_name}', '#{category}');"
+    'INSERT INTO mtb_product VALUES '\
+      + "('#{label}', '#{name}', '#{version}', '#{genre_id}', '#{thumbnail_name}', '#{exported_name}', '#{category}');"
   end
 
   private

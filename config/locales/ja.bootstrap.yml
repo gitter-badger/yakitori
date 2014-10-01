@@ -11,6 +11,8 @@ ja:
       link_sale: "販売紐付け"
       link_product: "素材紐付け"
       release: "リリース"
+      download_thumb: "サムネ取得"
+      download_data: "データ取得"
     titles:
       edit: "編集 %{model}"
       save: "保存 %{model}"

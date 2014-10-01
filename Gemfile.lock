@@ -66,6 +66,8 @@ GEM
       activesupport (>= 4.0.1)
       haml (>= 3.1, < 5.0)
       railties (>= 4.0.1)
+    highlight_js-rails (7.1.0)
+      rails (>= 3.1.1)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (2.1.1)
@@ -184,6 +186,7 @@ DEPENDENCIES
   devise
   digest
   haml-rails
+  highlight_js-rails
   jbuilder (~> 2.0)
   jquery-rails
   less-rails

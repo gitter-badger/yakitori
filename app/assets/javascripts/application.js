@@ -15,3 +15,7 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+//= require highlight_js/highlight
+//= require highlight_js/languages/ruby
+
+hljs.initHighlightingOnLoad();

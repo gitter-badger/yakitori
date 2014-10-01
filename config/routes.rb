@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  get 'tasks/download_thumb' => 'tasks#download_thumb', :as => 'download_thumb'
+  get 'tasks/download_data' => 'tasks#download_data', :as => 'download_data'
   get 'tasks/:id/link' => 'tasks#link', :as => 'link_to_sale'
   patch 'tasks/:id/update_sale' => 'tasks#update_sale', :as => 'link_to_update_sale'
   get 'tasks/:id/release' => 'tasks#release', :as => 'release_task'

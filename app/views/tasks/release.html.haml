@@ -1,2 +1,5 @@
-=@sql
+%pre
+  %code= @sql
+= link_to t('.back', :default => t("helpers.links.download_thumb")), download_thumb_path, :class => 'btn btn-success'
+= link_to t('.back', :default => t("helpers.links.download_data")), download_data_path, :class => 'btn btn-success'
 = link_to t('.back', :default => t("helpers.links.back")), tasks_path, :class => 'btn btn-default'

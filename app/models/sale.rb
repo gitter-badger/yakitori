@@ -42,10 +42,10 @@ class Sale < ActiveRecord::Base
   end
 
   def release
-    "INSERT INTO mtb_sale VALUES
-      ('#{label_id}', '#{name}', NULL, #{Price.find(price_id).value}, '#{SaleCategory.find(sale_category_id).label}',
-      #{display_order}, #{thumbnail_url}, #{form(preview1_url)}, #{form(preview2_url)}, #{form(preview3_url)},
-      #{form(preview4_url)}, #{form(preview5_url)}, 'true', 'true', '#{is_new.to_s}', '0', '2');"
+    'INSERT INTO mtb_sale VALUES'\
+      + "('#{label_id}', '#{name}', NULL, #{Price.find(price_id).value}, '#{SaleCategory.find(sale_category_id).label}', "\
+      + "#{display_order}, #{thumbnail_url}, #{form(preview1_url)}, #{form(preview2_url)}, #{form(preview3_url)}, "\
+      + "#{form(preview4_url)}, #{form(preview5_url)}, true, true, #{is_new}, 0, '2');"
   end
 
   private

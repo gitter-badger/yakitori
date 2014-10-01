@@ -12,6 +12,6 @@
   .form-group
     = f.label :sale_id, :class => 'control-label'
     .controls
-      = f.select :sale_id, Sale.where.not(:task_id => @task.id).pluck(:name, :id), :class => 'form-control'
+      = f.select :sale_id, Sale.where.not(:task_id == @task.id).pluck(:name, :id), :class => 'form-control'
   = f.submit t("helpers.links.link_sale"), :class => 'btn btn-primary'
   = link_to t('.cancel', :default => t("helpers.links.cancel")), tasks_path, :class => 'btn btn-default'

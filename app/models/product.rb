@@ -83,11 +83,7 @@ class Product < ActiveRecord::Base
 
       src = dest
       dest = Rails.root.join('var', 'data', label + '.zip').to_s
-      Utils.edit_zip_file(edit_exported).call(src, dest, UNZIP_PASS,ZIP_PASS)
-    end
-
-    def edit_exported
-      Proc.new do |src, dest|
+      Utils.edit_zip_file(src, dest, UNZIP_PASS,ZIP_PASS) do |src, dest|
         xml = create_meta_xml(generate_hash(genre.unique_str(src)))
         Utils.write_str(xml.to_s, File.join(src, 'meta.xml'))
 

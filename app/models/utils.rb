@@ -46,26 +46,22 @@ class Utils
     end
   end
 
-  def self.edit_zip_file(edit_func)
-    Proc.new do |src, dest, unzip_pass = nil, zip_pass = nil|
-      unzipped_path = Rails.root.join('var', 'tmp', 'unzip').to_s
-      Utils.unzip(src, unzipped_path, unzip_pass)
+  def self.edit_zip_file(src, dest, unzip_pass = nil, zip_pass = nil)
+    unzipped_path = Rails.root.join('var', 'tmp', 'unzip').to_s
+    Utils.unzip(src, unzipped_path, unzip_pass)
 
-      if Dir.entries(unzipped_path).length == 3
-        too_many_dir = Dir.entries(unzipped_path)[2]
-        `mv -f #{File.join(unzipped_path, too_many_dir, '*')} #{unzipped_path}`
-      end
-
-
-      if edit_func
-        edited_path = Rails.root.join('var', 'tmp', 'edited').to_s
-        edit_func.call(unzipped_path, edited_path)
-        unzipped_path = edited_path
-      end
-
-      Utils.zip(unzipped_path, dest, zip_pass)
-
+    if Dir.entries(unzipped_path).length == 3
+      too_many_dir = Dir.entries(unzipped_path)[2]
+      `mv -f #{File.join(unzipped_path, too_many_dir, '*')} #{unzipped_path}`
     end
+
+    if block_given?
+      edited_path = Rails.root.join('var', 'tmp', 'edited').to_s
+      yield(unzipped_path, edited_path)
+      unzipped_path = edited_path
+    end
+
+    Utils.zip(unzipped_path, dest, zip_pass)
   end
 
   def self.file_field_save(file_field, dest)

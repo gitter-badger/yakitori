@@ -22,18 +22,18 @@ class TasksController < ApplicationController
   end
 
   def release
-    @sql = @task.release
+    @sql = @task.sql
   end
 
   def download_data
-    dest = File.join(Rails.root, 'var', 'tmp', 'data.zip').to_s
-    Utils.zip(File.join(Rails.root, 'var', 'data').to_s, dest)
+    dest = File.join(Rails.root, 'var', 'tmp', 'data.zip')
+    Utils.zip(File.join(Rails.root, 'var', 'data'), dest)
     send_file(dest)
   end
 
   def download_thumb
-    dest = File.join(Rails.root, 'var', 'tmp', 'thumb.zip').to_s
-    Utils.zip(File.join(Rails.root, 'var', 'thumb').to_s, dest)
+    dest = File.join(Rails.root, 'var', 'tmp', 'thumb.zip')
+    Utils.zip(File.join(Rails.root, 'var', 'thumb'), dest)
     send_file(dest)
   end
 

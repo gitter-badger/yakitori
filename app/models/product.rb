@@ -34,7 +34,7 @@ class Product < ActiveRecord::Base
     count_up current_label
   end
 
-  def release
+  def sql
     'INSERT INTO mtb_product VALUES '\
       + "('#{label}', '#{name}', '#{version}', '#{genre_id}', '#{thumbnail_name}', '#{exported_name}', '#{category}');"
   end
@@ -54,10 +54,10 @@ class Product < ActiveRecord::Base
     def count_up(label)
       if free?
         counter = label[2, 4].to_i(10)
-        'F' + label[1, 1] + format('%04d', counter + 1)
+        'F' + label[1] + format('%04d', counter + 1)
       else
         counter = label[1, 3].hex
-        label[0, 1] + format('%03x', counter + 1)
+        label[0] + format('%03x', counter + 1)
       end
     end
 
@@ -83,7 +83,7 @@ class Product < ActiveRecord::Base
 
       src = dest
       dest = Rails.root.join('var', 'data', label + '.zip').to_s
-      Utils.zip_to_zip(edit_exported).call(src, dest, UNZIP_PASS,ZIP_PASS)
+      Utils.edit_zip_file(edit_exported).call(src, dest, UNZIP_PASS,ZIP_PASS)
     end
 
     def edit_exported

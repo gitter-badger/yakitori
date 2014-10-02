@@ -41,7 +41,7 @@ class Sale < ActiveRecord::Base
      ['新着フラグをださない', false]]
   end
 
-  def release
+  def sql
     'INSERT INTO mtb_sale VALUES'\
       + "('#{label_id}', '#{name}', NULL, #{Price.find(price_id).value}, '#{SaleCategory.find(sale_category_id).label}', "\
       + "#{display_order}, #{thumbnail_url}, #{form(preview1_url)}, #{form(preview2_url)}, #{form(preview3_url)}, "\

@@ -20,22 +20,12 @@
   .form-group
     = f.label :thumbnail_file, :class => 'control-label'
     .controls
-      = f.file_field :thumbnail_file, :class => 'form-control', :accept => 'image/*', :onchange => 'loadFile(this.files[0])'
+      = f.file_field :thumbnail_file, :class => 'form-control preview-src', :accept => 'image/*'
   .form-group
     = f.label :exported_file, :class => 'control-label'
     .controls
       = f.file_field :exported_file, :class => 'form-control'
   = f.submit nil, :class => 'btn btn-primary'
   = link_to t('.cancel', :default => t('helpers.links.cancel')), products_path, :class => 'btn btn-default'
-
-  .preview
+  %div
     = image_tag '', :id=>'preview'
-
-  :javascript
-    function loadFile(file) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        document.getElementById('preview').setAttribute('src', e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }

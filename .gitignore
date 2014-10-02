@@ -21,3 +21,4 @@ vendor/bundle
 config/initializers/password.rb
 /.idea
 var/
+.yakitori.iml

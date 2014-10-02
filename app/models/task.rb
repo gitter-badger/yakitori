@@ -18,16 +18,16 @@ class Task < ActiveRecord::Base
     ]
   end
 
-  def release
+  def sql
     #MEMO nakao rubyで'\n'は改行でない
     product_sql = "-- ↓↓↓↓↓for mtb_product↓↓↓↓↓\n"
     package_sql = "-- ↓↓↓↓↓for dtb_package↓↓↓↓↓\n"
     sale_sql = "-- ↓↓↓↓↓for mtb_sale↓↓↓↓↓\n"
-    Sale.where(:task_id => id).each do |sale|
-      sale_sql += sale.release
-      SaleProduct.where(:sale_id => sale.id).each do |sale_product|
-        package_sql += sale_product.release
-        product_sql += Product.where(:id => sale_product.product_id)[0].release
+    self.sales.each do |sale|
+      sale_sql += sale.sql
+      sale.products.each do |sale_product|
+        package_sql += sale_product.sql
+        product_sql += Product.where(:id => sale_product.product_id)[0].sql
       end
     end
     product_sql += "\n-- ↑↑↑↑↑for mtb_product↑↑↑↑↑\n\n"

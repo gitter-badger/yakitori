@@ -30,7 +30,7 @@ class Genre < ActiveRecord::Base
       else
         raise 'caught unknown genre name. please branch off elsif statement.'
     end
-    Genre.move_files(src, dest, required_files)
+    Genre.copy_files(src, dest, required_files)
   end
 
   def edit(src)
@@ -48,13 +48,13 @@ class Genre < ActiveRecord::Base
   def unique_str(dest)
     case id_label
       when LP_ID_LABEL, BANNER_ID_LABEL
-        Genre.fist_filename(File.join(dest, 'editors').to_s)
+        Genre.fist_filename(File.join(dest, 'editors'))
       when KANBAN_ID_LABEL
-        Genre.two_or_more_filename(File.join(dest, 'editors').to_s)
+        Genre.two_or_more_filename(File.join(dest, 'editors'))
       when SHOP_ID_LABEL
-        Genre.join_tag_contents(File.join(dest, 'template.xml').to_s)
+        Genre.join_tag_contents(File.join(dest, 'template.xml'))
       when SMPTOP_ID_LABEL
-        Genre.fist_filename(File.join(dest, 'kanban/editors').to_s)
+        Genre.fist_filename(File.join(dest, 'kanban/editors'))
       else
         raise 'caught unknown genre name. please branch off elsif statement.'
     end
@@ -62,23 +62,23 @@ class Genre < ActiveRecord::Base
 
   private
 
-    def self.move_files(src, dest, files)
-      `rm -rf #{File.join(dest, '*').to_s}`
+    def self.copy_files(src, dest, files)
+      `rm -rf #{File.join(dest, '*')}`
       files.each do |f_name|
-        src_path = File.join(src, f_name).to_s
-        `cp -r #{src_path} #{File.join(dest, f_name).to_s}` if File.directory?(src_path)
+        src_path = File.join(src, f_name)
+        `cp -r #{src_path} #{File.join(dest, f_name)}` if File.directory?(src_path)
 
         if File.file?(src_path)
           `mkdir -p #{File.join(dest, File.dirname(f_name))}`
           puts "mkdir -p #{File.join(dest, File.dirname(f_name))}"
-          `cp #{src_path} #{File.join(dest, f_name).to_s}`
+          `cp #{src_path} #{File.join(dest, f_name)}`
         end
       end
     end
 
     def self.edit_lp_xml(src)
-      src_path = File.join(src, 'lp.xml').to_s
-      str = Utils.read_str(src_path)
+      src_path = File.join(src, 'lp.xml')
+      str = open(src_path).read
         .gsub(/<page_title>.*?<\/page_title>/, '<page_title>新規ページ</page_title>')
         .gsub(/<FlgOutputCagNewPage>.*?<\/OutputDir>/, '')
       Utils.write_str(str, src_path)
@@ -98,7 +98,7 @@ class Genre < ActiveRecord::Base
     end
 
     def self.two_or_more_filename(path)
-      #'.'と'..'を除く先頭
+      #'.'と'..'と'0'や'1'などのファイル名が1以下のものを除く先頭
       Dir.entries(path).each_with_index do |name, i|
         return name if i > 1 && name.to_s.length > 1
       end

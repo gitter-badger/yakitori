@@ -24,20 +24,20 @@ class Utils
         end
       end
     end
-    Zip::Archive.encrypt(dest_path, pass) unless pass == nil || pass == ''
+    Zip::Archive.encrypt(dest_path, pass) unless pass.blank?
   end
 
   def self.unzip(src_path, dest_path, pass = nil)
     self.clean_up(dest_path)
     Zip::Archive.open(src_path) do |arc|
-      arc.decrypt(pass) unless pass == nil || pass == ''
+      arc.decrypt(pass) unless pass.blank?
       arc.num_files.times do |i|
         arc.fopen(arc.get_name(i)) do |file|
           if file.directory? then
-            FileUtils.mkdir_p(File.join(dest_path, file.name).to_s)
+            FileUtils.mkdir_p(File.join(dest_path, file.name))
           else
-            FileUtils.mkdir_p(File.join(dest_path, File.dirname(file.name)).to_s)
-            File.open(File.join(dest_path, file.name).to_s, 'w') do |f|
+            FileUtils.mkdir_p(File.join(dest_path, File.dirname(file.name)))
+            File.open(File.join(dest_path, file.name), 'w') do |f|
               f.write file.read.force_encoding('UTF-8')
             end
           end
@@ -46,14 +46,14 @@ class Utils
     end
   end
 
-  def self.zip_to_zip(edit_func)
+  def self.edit_zip_file(edit_func)
     Proc.new do |src, dest, unzip_pass = nil, zip_pass = nil|
       unzipped_path = Rails.root.join('var', 'tmp', 'unzip').to_s
       Utils.unzip(src, unzipped_path, unzip_pass)
 
       if Dir.entries(unzipped_path).length == 3
         too_many_dir = Dir.entries(unzipped_path)[2]
-        `mv -f #{File.join(unzipped_path, too_many_dir, '*').to_s} #{unzipped_path}`
+        `mv -f #{File.join(unzipped_path, too_many_dir, '*')} #{unzipped_path}`
       end
 
 
@@ -73,7 +73,7 @@ class Utils
   end
 
   def self.clean_up(path)
-    path = path.force_encoding('UTF-8') unless path == nil || path == ''
+    path = path.force_encoding('UTF-8') unless path.blank?
     if File.exist?(path) ? File.directory?(path) : File.extname(path) == ''
       FileUtils.remove_dir(path, {:force => true})
       FileUtils.mkdir_p(path)
@@ -97,8 +97,8 @@ class Utils
   def self.move_files(src, dest, files)
     FileUtils.remove(dest, {:force => true})
     files.each do |f_name|
-      src_path = File.join(src, f_name).to_s
-      dest_path = File.join(dest, f_name).to_s
+      src_path = File.join(src, f_name)
+      dest_path = File.join(dest, f_name)
       FileUtils.mkdir_p dest_path if File.directory? src_path
       FileUtils.cp(src_path, dest)
     end
